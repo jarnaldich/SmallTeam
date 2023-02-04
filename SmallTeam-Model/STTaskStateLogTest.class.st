@@ -13,6 +13,6 @@ STTaskStateLogTest >> testChangeStateTo [
 	st := STTaskStateLog new.
 	s := STTaskState working.
 	st changeStateTo: s.
-	self assert: (st currentState id) equals: s. 
+	self assert: (st currentState id) equals: #working. 
 	
 ]
