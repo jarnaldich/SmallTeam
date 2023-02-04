@@ -14,5 +14,7 @@ STTaskStateLogTest >> testChangeStateTo [
 	s := STTaskState working.
 	st changeStateTo: s.
 	self assert: (st currentState id) equals: #working. 
+	self assert: (s transitions size) equals: 1.
+	
 	
 ]

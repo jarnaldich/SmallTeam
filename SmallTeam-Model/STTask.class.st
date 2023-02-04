@@ -18,7 +18,7 @@ Class {
 		'assignedTo',
 		'creationDate',
 		'taskStateLog',
-		'estimatedTimeSpan',
+		'estimatedDuration',
 		'title',
 		'description',
 		'refDoc'
