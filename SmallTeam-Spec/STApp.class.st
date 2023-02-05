@@ -9,6 +9,8 @@ Class {
 
 { #category : #running }
 STApp >> run [
+
 	"Run the app"
-	(self new: STTaskListPresenter) openWithSpec.
+
+	(self new: STTaskListPresenter) open
 ]

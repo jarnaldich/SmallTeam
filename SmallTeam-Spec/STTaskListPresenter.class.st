@@ -24,8 +24,15 @@ STTaskListPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
+STTaskListPresenter >> initializeWindow: aWindowPresenter [
+	aWindowPresenter 
+		title: 'Tasques UATD';
+		initialExtent: 500@500.
+]
+
+{ #category : #initialization }
 STTaskListPresenter >> updatePresenter [ 
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
-	taskListPresenter items: STTask selectAll asOrderedCollection.
+	taskListPresenter items: STData tasks asOrderedCollection.
 ]

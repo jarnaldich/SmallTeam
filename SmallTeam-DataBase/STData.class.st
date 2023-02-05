@@ -34,3 +34,20 @@ STData class >> developers: anObject [
 
 	developers := anObject
 ]
+
+{ #category : #accessing }
+STData class >> taskAdd: aTask [
+	self tasks addFirst: aTask.
+]
+
+{ #category : #accessing }
+STData class >> tasks [
+
+	^ tasks ifNil: [ tasks := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+STData class >> tasks: anObject [
+
+	tasks := anObject
+]
