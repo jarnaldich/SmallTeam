@@ -62,11 +62,26 @@ STTaskFormPresenter >> descriptionTextInput: anObject [
 ]
 
 { #category : #initialization }
+STTaskFormPresenter >> initializeDialogWindow: aDialogWindowPresenter [
+	"Initialize controls"	
+
+	aDialogWindowPresenter 
+		title: 'Task';
+		initialExtent: 500@500;
+		addButton: 'Ok' do: [  :dialog |
+			self updateModel.
+			dialog close ];
+		addButton: 'Cancel' do: [ :dialog |
+			dialog close ].
+]
+
+{ #category : #initialization }
 STTaskFormPresenter >> initializePresenters [
 	"Initialize controls"	
 
 	titleTextInput := self newTextInput.
-	descriptionTextInput := self newTextInput.
+	descriptionTextInput :=  self newTextInput.
+	descriptionTextInput := self newText.
 	refDocTextInput := self newTextInput.
 	
 ]
@@ -101,4 +116,14 @@ STTaskFormPresenter >> titleTextInput [
 STTaskFormPresenter >> titleTextInput: anObject [
 
 	titleTextInput := anObject
+]
+
+{ #category : #initialization }
+STTaskFormPresenter >> updateModel [ 
+	self model description: self descriptionTextInput text.
+	self model refDoc: self refDocTextInput text.
+	self model title: self titleTextInput text.
+	
+	self announcingObject valueChanged.
+
 ]

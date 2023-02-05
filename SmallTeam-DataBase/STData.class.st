@@ -41,6 +41,12 @@ STData class >> taskAdd: aTask [
 ]
 
 { #category : #accessing }
+STData class >> taskRemove: aTask [
+	self tasks addFirst: aTask.
+	self tasks remove: aTask ifAbsent: [  ].
+]
+
+{ #category : #accessing }
 STData class >> tasks [
 
 	^ tasks ifNil: [ tasks := OrderedCollection new ]
