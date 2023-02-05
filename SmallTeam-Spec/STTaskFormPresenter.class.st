@@ -5,11 +5,8 @@ Class {
 	#name : #STTaskFormPresenter,
 	#superclass : #SpPresenterWithModel,
 	#instVars : [
-		'titleLabel',
 		'titleTextInput',
-		'descriptionLabel',
 		'descriptionTextInput',
-		'refDocLabel',
 		'refDocTextInput'
 	],
 	#category : #'SmallTeam-Spec'
@@ -18,14 +15,16 @@ Class {
 { #category : #initialization }
 STTaskFormPresenter >> connectPresenters [ 
 	self descriptionTextInput whenEditableChangedDo:  [ :old :n :e | 
-		self model description: n ].
+		self model description: n.
+		Transcript show: n; cr. ]."
 	self descriptionTextInput whenSubmitDo: [ :txt | 
 		self model description: txt.
+		Transcript crShow: 'Description ', self model description.
 		self announcingObject valueChanged.
-		Transcript show: self announcingObject.
-		Transcript show: self model.
-		Transcript show: txt. ].	
-	
+		Transcript show: self announcingObject; cr.
+		Transcript show: self model; cr.
+		Transcript show: txt; cr. ].	
+	"
 ]
 
 { #category : #initialization }
@@ -41,7 +40,7 @@ STTaskFormPresenter >> defaultLayout [
 				add: descriptionTextInput;
 				nextRow;
 				add: 'Documentació';
-				add: refDocLabel;
+				add: refDocTextInput;
 				
 				yourself
 			]);
@@ -64,21 +63,19 @@ STTaskFormPresenter >> descriptionTextInput: anObject [
 
 { #category : #initialization }
 STTaskFormPresenter >> initializePresenters [
-	"Initialize controls and layout"	
-	titleLabel := self newLabel label: 'Tasca:'.
+	"Initialize controls"	
+
 	titleTextInput := self newTextInput.
-	
-	descriptionLabel := self newLabel label: 'Descripció'.
 	descriptionTextInput := self newTextInput.
-	
-	refDocLabel := self newLabel label: 'Documentació'.
-	refDocLabel := self newTextInput.
+	refDocTextInput := self newTextInput.
 	
 ]
 
 { #category : #initialization }
 STTaskFormPresenter >> modelChanged [ 
 	self titleTextInput text: self model title.
+	self descriptionTextInput text: self model description.
+	self refDocTextInput text: self model refDoc.
 	
 ]
 
