@@ -20,14 +20,17 @@ STTaskListPresenter >> defaultLayout [
 
 { #category : #initialization }
 STTaskListPresenter >> editSelectedTask [
+
 	| task app |
 	task := taskListPresenter selection selectedItem.
 	"app := STTaskFormPresenter newApplication: self application."
-	app := STTaskFormPresenter newApplication: self application owner: self model: task.
+	app := STTaskFormPresenter
+		       newApplication: self application
+		       owner: self
+		       model: task.
 	app openModal.
-	
-	self updatePresenter.
-		
+
+	self updatePresenter
 ]
 
 { #category : #initialization }

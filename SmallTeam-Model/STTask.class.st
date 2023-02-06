@@ -62,7 +62,7 @@ STTask >> creationDate: anObject [
 { #category : #accessing }
 STTask >> description [
 
-	^ description
+	^ description ifNil: [ '' ]
 ]
 
 { #category : #accessing }
@@ -86,7 +86,7 @@ STTask >> estimatedDuration: anObject [
 { #category : #accessing }
 STTask >> refDoc [
 
-	^ refDoc
+	^ refDoc ifNil: [ '' ]
 ]
 
 { #category : #accessing }
@@ -104,7 +104,7 @@ STTask >> taskStateLog [
 { #category : #accessing }
 STTask >> title [
 
-	^ title
+	^ title ifNil: [ '' ]
 ]
 
 { #category : #accessing }

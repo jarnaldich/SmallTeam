@@ -7,10 +7,23 @@ Class {
 	#instVars : [
 		'titleTextInput',
 		'descriptionTextInput',
-		'refDocTextInput'
+		'refDocTextInput',
+		'actionBar'
 	],
 	#category : #'SmallTeam-Spec'
 }
+
+{ #category : #accessing }
+STTaskFormPresenter >> actionBar [
+
+	^ actionBar
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> actionBar: anObject [
+
+	actionBar := anObject
+]
 
 { #category : #initialization }
 STTaskFormPresenter >> connectPresenters [ 
@@ -27,24 +40,32 @@ STTaskFormPresenter >> connectPresenters [
 	"
 ]
 
-{ #category : #initialization }
+{ #category : #layout }
 STTaskFormPresenter >> defaultLayout [ 
 	"Initialize  layout"	
+			
 	^ SpBoxLayout newTopToBottom 
-		add: (SpGridLayout build: [ :builder |
-			builder
-				add: 'Tasca:';
-				add: titleTextInput;
-				nextRow;
-				add: 'Descripció';
-				add: descriptionTextInput;
-				nextRow;
-				add: 'Documentació';
-				add: refDocTextInput;
-				
-				yourself
-			]);
-		yourself.
+			add: 'Títol'
+			expand: false
+			fill: false
+			padding: 5;
+			add: titleTextInput;			
+	
+			add: 'Descripció'
+			expand: false
+			fill: false
+			padding: 5;
+			add: descriptionTextInput  withConstraints: [ :c | c height: 120 ];
+			
+			add: 'Doc. extra (url, correu...)'
+			expand: false
+			fill: false
+			padding: 5;
+			add: refDocTextInput;		
+					
+			add: actionBar;	
+			
+			yourself.
 
 	
 ]
@@ -84,6 +105,26 @@ STTaskFormPresenter >> initializePresenters [
 	descriptionTextInput := self newText.
 	refDocTextInput := self newTextInput.
 	
+	actionBar := self newActionBar
+		addLast: (self newButton
+			label: 'Add'; 
+			icon: (self iconNamed: #smallOk);
+			help: 'Add.';
+			action: [ UIManager default defer: [ self inform: 'Add' ] ];
+			yourself);
+		addLast: (self newButton
+			label: 'Remove'; 
+			icon: (self iconNamed: #smallCancel);
+			help: 'Remove.';
+			action: [ UIManager default defer: [ self inform: 'Remove' ] ];
+			yourself);
+		add: (self newButton
+			label: 'Other'; 
+			help: 'Other.';
+			icon: (self iconNamed: #smallAdd);
+			action: [ self newTask ];
+			yourself);
+		yourself.
 ]
 
 { #category : #initialization }
@@ -92,6 +133,17 @@ STTaskFormPresenter >> modelChanged [
 	self descriptionTextInput text: self model description.
 	self refDocTextInput text: self model refDoc.
 	
+]
+
+{ #category : #initialization }
+STTaskFormPresenter >> newTask [
+	"Adds a task"
+	| t |
+	t := STTask new.
+	STData taskAdd: t.
+	self model: t.
+	self modelChanged.
+	UIManager default defer: [ self inform: 'Task added' ].
 ]
 
 { #category : #accessing }
