@@ -65,22 +65,35 @@ STData class >> tasks: anObject [
 ]
 
 { #category : #accessing }
-STData class >> tasksLoadFile: aPathString [
+STData class >> tasksLoad [
 	"Saves the tasks collection to disk as STON"
-	| obj |
-	obj := aPathString asFileReference fileStream do: [ :stream | STON fromStream: stream ].
+	^ self tasksLoadFile: (self defaultRepo / 'Tasks.ston' ) pathString .
+]
+
+{ #category : #accessing }
+STData class >> tasksLoadFile: aPathString [
+	"Loads the tasks collection from disk as STON. Returns false on error."
+	| s obj |
+	s := aPathString asFileReference readStream. 
+	obj := STON fromStream: s.
+	obj
+		ifNil: [ ^ false ]
+		ifNotNil: [ self tasks: obj ].
+	^ true.
 ]
 
 { #category : #accessing }
 STData class >> tasksSave [
 	"Saves the tasks collection to disk as STON"
-	self tasksSaveFile: (self defaultRepo / 'Tasks.ston' ).
+	self tasksSaveFile: (self defaultRepo / 'Tasks.ston' ) pathString .
 ]
 
 { #category : #accessing }
 STData class >> tasksSaveFile: aPathString [
 	"Saves the tasks collection to disk as STON"
-	Transcript crShow: aPathString .
-	aPathString asFileReference writeStream do: [ :stream | 
-		(STON writer on: stream) nextPut: self tasks ].
+	| s |
+	s := aPathString asFileReference writeStream.
+	(STON writer on: s) nextPut: self tasks.
+	s close.
+
 ]
