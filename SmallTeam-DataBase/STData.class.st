@@ -13,6 +13,12 @@ Class {
 	#category : #'SmallTeam-DataBase'
 }
 
+{ #category : #accessing }
+STData class >> defaultRepo [ 
+	"Returns location of repo. Should be machine dendendent, configured or sth in the future..."
+	^ FileLocator localDirectory  / 'iceberg' / 'jarnaldich' / 'SmallTeam' / 'data'
+]
+
 { #category : #'as yet unclassified' }
 STData class >> developerByName: aString [
 	"returns developer by name"
@@ -56,4 +62,25 @@ STData class >> tasks [
 STData class >> tasks: anObject [
 
 	tasks := anObject
+]
+
+{ #category : #accessing }
+STData class >> tasksLoadFile: aPathString [
+	"Saves the tasks collection to disk as STON"
+	| obj |
+	obj := aPathString asFileReference fileStream do: [ :stream | STON fromStream: stream ].
+]
+
+{ #category : #accessing }
+STData class >> tasksSave [
+	"Saves the tasks collection to disk as STON"
+	self tasksSaveFile: (self defaultRepo / 'Tasks.ston' ).
+]
+
+{ #category : #accessing }
+STData class >> tasksSaveFile: aPathString [
+	"Saves the tasks collection to disk as STON"
+	Transcript crShow: aPathString .
+	aPathString asFileReference writeStream do: [ :stream | 
+		(STON writer on: stream) nextPut: self tasks ].
 ]
