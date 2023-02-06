@@ -45,11 +45,14 @@ STTaskStatePresenter >> initializePresenters [
 		addGroup: [ :group | group
 			addItem: [ :item | 
 				item name: 'Unassign'; 
-					action: [ self action value: nil ] ];
-			addItem: [ :item | 
-				item name: 'Working'; 
-				action: [ self action value: STTaskState working  ] ];
-			yourself ].
+					action: [ self action value: nil ] ].
+			#(working blocked validation finished abandoned) do: [ :sid |
+				group addItem: [ :item | 
+					item name: sid asString capitalized; 
+					action: [ self action value: (STTaskState perform: sid)  ]]	
+			].
+			
+			group ].
 	menuPresenter menu: menu.
 ]
 

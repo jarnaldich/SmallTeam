@@ -52,6 +52,13 @@ STTaskState class >> working [
 	^ self new id: #working
 ]
 
+{ #category : #converting }
+STTaskState >> asString [
+	"comment stating purpose of instance-side method"
+	"scope: class-variables  &  instance-variables"	
+	^ 'TaskState[',self id asString capitalized,']'.
+]
+
 { #category : #accessing }
 STTaskState >> id [
 
