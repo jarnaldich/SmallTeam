@@ -29,12 +29,13 @@ STTaskFormPresenter >> actionBar: anObject [
 
 { #category : #initialization }
 STTaskFormPresenter >> connectPresenters [
-	nil 
-"
+
 	self descriptionTextInput whenEditableChangedDo:  [ :old :n :e | 
-		self model description: n.
-		Transcript show: n; cr. ].
-	self descriptionTextInput whenSubmitDo: [ :txt | 
+		self updateModel ].
+	self titleTextInput whenEditableChangedDo: [ :old :n :e |
+		self updateModel ].
+	
+	"self descriptionTextInput whenSubmitDo: [ :txt | 
 		self model description: txt.
 		Transcript crShow: 'Description ', self model description.
 		self announcingObject valueChanged.
@@ -126,19 +127,9 @@ STTaskFormPresenter >> initializePresenters [
 			label: 'Add'; 
 			icon: (self iconNamed: #smallOk);
 			help: 'Add.';
-			action: [ UIManager default defer: [ self inform: 'Add' ] ];
-			yourself);
-		addLast: (self newButton
-			label: 'Remove'; 
-			icon: (self iconNamed: #smallCancel);
-			help: 'Remove.';
-			action: [ UIManager default defer: [ self inform: 'Remove' ] ];
-			yourself);
-		add: (self newButton
-			label: 'Other'; 
-			help: 'Other.';
-			icon: (self iconNamed: #smallAdd);
-			action: [ self newTask ];
+			action: [ 
+				self updateModel.
+				UIManager default defer: [ self inform: 'Add' ]. ];
 			yourself);
 		yourself.
 ]

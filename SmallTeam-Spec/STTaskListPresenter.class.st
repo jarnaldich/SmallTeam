@@ -51,6 +51,14 @@ STTaskListPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 500@500.
 ]
 
+{ #category : #updating }
+STTaskListPresenter >> modelChanged [ 
+	"comment stating purpose of instance-side method"
+	"scope: class-variables  &  instance-variables"	
+	self updatePresenter.
+	super modelChanged.
+]
+
 { #category : #initialization }
 STTaskListPresenter >> removeSelectedTask [
 	| task  |
@@ -98,5 +106,7 @@ STTaskListPresenter >> taskListContextMenu [
 STTaskListPresenter >> updatePresenter [ 
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
+	
 	tablePresenter items: self model.
+
 ]
