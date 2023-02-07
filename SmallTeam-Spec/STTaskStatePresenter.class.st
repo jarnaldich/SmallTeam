@@ -3,7 +3,7 @@ I am the presenter in charge of choosing the options for a task state.
 "
 Class {
 	#name : #STTaskStatePresenter,
-	#superclass : #SpPresenter,
+	#superclass : #SpPresenterWithModel,
 	#instVars : [
 		'menuPresenter',
 		'taskState',
@@ -38,18 +38,22 @@ STTaskStatePresenter >> defaultLayout [
 { #category : #initialization }
 STTaskStatePresenter >> initializePresenters [
 	"intialize the menu"
-	| menu |
+	| menu currentState |
+	currentState := self model taskStateLog currentState.
 	menuPresenter := SpMenuButtonPresenter new
-		label: 'Estat'.
+		label:  (currentState ifNil: ['Estat'] ifNotNil: [ currentState name]).
 	menu := (SpMenuPresenter new)
-		addGroup: [ :group | group
-			addItem: [ :item | 
-				item name: 'Unassign'; 
-					action: [ self action value: nil ] ].
+		addGroup: [ :group | 
 			#(working blocked validation finished abandoned) do: [ :sid |
 				group addItem: [ :item | 
-					item name: sid asString capitalized; 
-					action: [ self action value: (STTaskState perform: sid)  ]]	
+					| label |
+					label := sid asString capitalized.
+					item name: label; 
+					action: [ 
+						menuPresenter label: label.
+						self model taskStateLog changeStateTo: (STTaskState perform: sid).
+						self action value: (STTaskState perform: sid)  
+					]]	
 			].
 			
 			group ].

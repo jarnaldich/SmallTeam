@@ -8,7 +8,8 @@ Class {
 		'titleTextInput',
 		'descriptionTextInput',
 		'refDocTextInput',
-		'actionBar'
+		'actionBar',
+		'taskStatePresenter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -61,7 +62,14 @@ STTaskFormPresenter >> defaultLayout [
 			expand: false
 			fill: false
 			padding: 5;
-			add: refDocTextInput;		
+			add: refDocTextInput;	
+
+			add: (SpBoxLayout newLeftToRight 
+						add: taskStatePresenter 
+						withConstraints: [ :c | c width: 300 ]; 					
+						yourself)
+
+				 withConstraints: [ :c | c width: 100 ];	
 					
 			add: actionBar;	
 			
@@ -104,6 +112,8 @@ STTaskFormPresenter >> initializePresenters [
 	descriptionTextInput :=  self newTextInput.
 	descriptionTextInput := self newText.
 	refDocTextInput := self newTextInput.
+	
+	taskStatePresenter := STTaskStatePresenter on: self model. "or announcingObject?"
 	
 	actionBar := self newActionBar
 		addLast: (self newButton

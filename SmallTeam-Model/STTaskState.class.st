@@ -70,3 +70,10 @@ STTaskState >> id: anObject [
 
 	id := anObject
 ]
+
+{ #category : #converting }
+STTaskState >> name [
+	"comment stating purpose of instance-side method"
+	"scope: class-variables  &  instance-variables"	
+	^ self id asString capitalized.
+]

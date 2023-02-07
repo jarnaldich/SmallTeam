@@ -32,7 +32,7 @@ STTaskStateLog >> changeStateTo: aState because: aString [
 { #category : #'as yet unclassified' }
 STTaskStateLog >> currentState [  
 	"return current state"
-	^ (self transitions at: 1) toState.
+	^ self transitions ifEmpty: nil ifNotEmpty: [ (self transitions at: 1) toState ].
 ]
 
 { #category : #accessing }
