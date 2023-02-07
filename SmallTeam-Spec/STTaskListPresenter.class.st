@@ -40,7 +40,6 @@ STTaskListPresenter >> initializePresenters [
 	tablePresenter := self newTable 
 		addColumn: (SpStringTableColumn title: 'Title' evaluated: [:task | task title]);
 		contextMenu: self taskListContextMenu;
-		whenSelectedItemChangedDo: [ :old :new | UIManager default defer: [ self inform: 'Sel Changed' ] ];
 		yourself.
 
 ]

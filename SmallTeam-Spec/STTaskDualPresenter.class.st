@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : #initialization }
+STTaskDualPresenter >> connectPresenters [ 
+	"Initialize controls"	
+	taskListPresenter tablePresenter whenSelectionChangedDo: [ self updatePresenter  ].
+]
+
+{ #category : #initialization }
 STTaskDualPresenter >> defaultLayout [ 
 	"Initialize  layout"	
 			
@@ -35,8 +41,7 @@ STTaskDualPresenter >> initializePresenters [
 
 { #category : #initialization }
 STTaskDualPresenter >> updatePresenter [ 
-	| selected |
-	selected := taskListPresenter selectedItem.
-	"taskFormPresenter := self instantiate: STTaskFormPresenter on: selected."
-	taskFormPresenter model: selected.
+	"comment stating purpose of instance-side method"
+	"scope: class-variables  &  instance-variables"	
+	taskFormPresenter model: taskListPresenter selectedItem.
 ]
