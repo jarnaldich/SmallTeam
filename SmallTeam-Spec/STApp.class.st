@@ -12,5 +12,5 @@ STApp >> run [
 
 	"Run the app"
 
-	(self new: STTaskListPresenter) open
+	(self new: STTaskDualPresenter) open
 ]

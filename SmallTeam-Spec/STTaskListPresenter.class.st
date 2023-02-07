@@ -3,9 +3,9 @@ I am the Spec Presenter responsible for showing a list of Tasks.
 "
 Class {
 	#name : #STTaskListPresenter,
-	#superclass : #SpPresenter,
+	#superclass : #SpPresenterWithModel,
 	#instVars : [
-		'taskListPresenter'
+		'tablePresenter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -14,7 +14,7 @@ Class {
 STTaskListPresenter >> defaultLayout [ 
 	"Initialize  layout"	
 	^ SpBoxLayout newVertical 
-			add: taskListPresenter;
+			add: tablePresenter;
 			yourself
 ]
 
@@ -22,7 +22,7 @@ STTaskListPresenter >> defaultLayout [
 STTaskListPresenter >> editSelectedTask [
 
 	| task app |
-	task := taskListPresenter selection selectedItem.
+	task := tablePresenter selection selectedItem.
 	"app := STTaskFormPresenter newApplication: self application."
 	app := STTaskFormPresenter
 		       newApplication: self application
@@ -37,9 +37,10 @@ STTaskListPresenter >> editSelectedTask [
 STTaskListPresenter >> initializePresenters [
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
-	taskListPresenter := self newTable 
+	tablePresenter := self newTable 
 		addColumn: (SpStringTableColumn title: 'Title' evaluated: [:task | task title]);
 		contextMenu: self taskListContextMenu;
+		whenSelectedItemChangedDo: [ :old :new | UIManager default defer: [ self inform: 'Sel Changed' ] ];
 		yourself.
 
 ]
@@ -54,10 +55,37 @@ STTaskListPresenter >> initializeWindow: aWindowPresenter [
 { #category : #initialization }
 STTaskListPresenter >> removeSelectedTask [
 	| task  |
-	task := taskListPresenter selection selectedItem.
+	task := tablePresenter selection selectedItem.
 	STData taskRemove: task.	
 	self updatePresenter.
 		
+]
+
+{ #category : #initialization }
+STTaskListPresenter >> selectIndex: anInteger [
+	tablePresenter selectIndex: anInteger.
+]
+
+{ #category : #initialization }
+STTaskListPresenter >> selectedIndex [
+	^ tablePresenter selectedIndex
+]
+
+{ #category : #initialization }
+STTaskListPresenter >> selectedItem [
+	^ tablePresenter selectedItem
+]
+
+{ #category : #accessing }
+STTaskListPresenter >> tablePresenter [
+
+	^ tablePresenter
+]
+
+{ #category : #accessing }
+STTaskListPresenter >> tablePresenter: anObject [
+
+	tablePresenter := anObject
 ]
 
 { #category : #initialization }
@@ -67,9 +95,9 @@ STTaskListPresenter >> taskListContextMenu [
 		addItem: [ :item | item name: 'Remove'; action: [ self removeSelectedTask ] ].
 ]
 
-{ #category : #initialization }
+{ #category : #updating }
 STTaskListPresenter >> updatePresenter [ 
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
-	taskListPresenter items: STData tasks asOrderedCollection.
+	tablePresenter items: self model.
 ]

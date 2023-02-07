@@ -9,7 +9,8 @@ Class {
 		'descriptionTextInput',
 		'refDocTextInput',
 		'actionBar',
-		'taskStatePresenter'
+		'taskStatePresenter',
+		'personChoosePresenter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -27,10 +28,12 @@ STTaskFormPresenter >> actionBar: anObject [
 ]
 
 { #category : #initialization }
-STTaskFormPresenter >> connectPresenters [ 
+STTaskFormPresenter >> connectPresenters [
+	nil 
+"
 	self descriptionTextInput whenEditableChangedDo:  [ :old :n :e | 
 		self model description: n.
-		Transcript show: n; cr. ]."
+		Transcript show: n; cr. ].
 	self descriptionTextInput whenSubmitDo: [ :txt | 
 		self model description: txt.
 		Transcript crShow: 'Description ', self model description.
@@ -66,7 +69,9 @@ STTaskFormPresenter >> defaultLayout [
 
 			add: (SpBoxLayout newLeftToRight 
 						add: taskStatePresenter 
-						withConstraints: [ :c | c width: 300 ]; 					
+						withConstraints: [ :c | c width: 150 ]; 	
+						add: personChoosePresenter  
+						withConstraints: [ :c | c width: 150 ]; 				
 						yourself)
 
 				 withConstraints: [ :c | c width: 100 ];	
@@ -114,6 +119,7 @@ STTaskFormPresenter >> initializePresenters [
 	refDocTextInput := self newTextInput.
 	
 	taskStatePresenter := STTaskStatePresenter on: self model. "or announcingObject?"
+	personChoosePresenter := STPersonChoosePresenter on: self model.
 	
 	actionBar := self newActionBar
 		addLast: (self newButton
