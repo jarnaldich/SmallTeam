@@ -58,6 +58,15 @@ STPersonChoosePresenter >> initializePresenters [
 	menuPresenter menu: menu.
 ]
 
+{ #category : #initialization }
+STPersonChoosePresenter >> modelChanged [
+	"intialize the menu"
+	| assignedTo |
+	assignedTo := self model assignedTo.
+	menuPresenter 
+		label:  (assignedTo ifNil: ['Unassigned'] ifNotNil: [ assignedTo name]).
+]
+
 { #category : #accessing }
 STPersonChoosePresenter >> person [
 

@@ -19,21 +19,6 @@ STTaskListPresenter >> defaultLayout [
 ]
 
 { #category : #initialization }
-STTaskListPresenter >> editSelectedTask [
-
-	| task app |
-	task := tablePresenter selection selectedItem.
-	"app := STTaskFormPresenter newApplication: self application."
-	app := STTaskFormPresenter
-		       newApplication: self application
-		       owner: self
-		       model: task.
-	app openModal.
-
-	self updatePresenter
-]
-
-{ #category : #initialization }
 STTaskListPresenter >> initializePresenters [
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
@@ -51,21 +36,20 @@ STTaskListPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 500@500.
 ]
 
+{ #category : #initialization }
+STTaskListPresenter >> inspectSelectedTask [
+	| task  |
+	task := tablePresenter selection selectedItem.
+	task inspect.	
+		
+]
+
 { #category : #updating }
 STTaskListPresenter >> modelChanged [ 
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
 	self updatePresenter.
 	super modelChanged.
-]
-
-{ #category : #initialization }
-STTaskListPresenter >> removeSelectedTask [
-	| task  |
-	task := tablePresenter selection selectedItem.
-	STData taskRemove: task.	
-	self updatePresenter.
-		
 ]
 
 { #category : #initialization }
@@ -98,8 +82,7 @@ STTaskListPresenter >> tablePresenter: anObject [
 { #category : #initialization }
 STTaskListPresenter >> taskListContextMenu [
 	^ self newMenu
-		addItem: [ :item | item name: 'Edit'; action: [  self editSelectedTask ] ];
-		addItem: [ :item | item name: 'Remove'; action: [ self removeSelectedTask ] ].
+		addItem: [ :item | item name: 'Inspect'; action: [ self inspectSelectedTask ] ].
 ]
 
 { #category : #updating }

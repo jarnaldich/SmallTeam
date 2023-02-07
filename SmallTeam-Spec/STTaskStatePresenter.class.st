@@ -60,6 +60,12 @@ STTaskStatePresenter >> initializePresenters [
 	menuPresenter menu: menu.
 ]
 
+{ #category : #initialization }
+STTaskStatePresenter >> modelChanged [ 
+	"intialize the menu"
+	self updatePresenter 
+]
+
 { #category : #accessing }
 STTaskStatePresenter >> taskState [
 
@@ -70,4 +76,12 @@ STTaskStatePresenter >> taskState [
 STTaskStatePresenter >> taskState: anObject [
 
 	taskState := anObject
+]
+
+{ #category : #initialization }
+STTaskStatePresenter >> updatePresenter [ 
+	"intialize the menu"
+	|  currentState |
+	currentState := self model taskStateLog currentState.
+	menuPresenter label:  (currentState ifNil: ['Estat'] ifNotNil: [ currentState name]).
 ]

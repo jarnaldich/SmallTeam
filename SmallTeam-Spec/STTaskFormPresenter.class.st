@@ -139,6 +139,8 @@ STTaskFormPresenter >> modelChanged [
 	self titleTextInput text: self model title.
 	self descriptionTextInput text: self model description.
 	self refDocTextInput text: self model refDoc.
+	self taskStatePresenter model: self model.
+	self personChoosePresenter model: self model.
 	
 ]
 
@@ -154,6 +156,18 @@ STTaskFormPresenter >> newTask [
 ]
 
 { #category : #accessing }
+STTaskFormPresenter >> personChoosePresenter [
+
+	^ personChoosePresenter
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> personChoosePresenter: anObject [
+
+	personChoosePresenter := anObject
+]
+
+{ #category : #accessing }
 STTaskFormPresenter >> refDocTextInput [
 
 	^ refDocTextInput
@@ -163,6 +177,18 @@ STTaskFormPresenter >> refDocTextInput [
 STTaskFormPresenter >> refDocTextInput: anObject [
 
 	refDocTextInput := anObject
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> taskStatePresenter [
+
+	^ taskStatePresenter
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> taskStatePresenter: anObject [
+
+	taskStatePresenter := anObject
 ]
 
 { #category : #accessing }
