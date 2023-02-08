@@ -29,6 +29,18 @@ STTaskState class >> abandoned [
 ]
 
 { #category : #'instance creation' }
+STTaskState class >> allNames [
+	"Create Task in #working state"
+	^ self allSymbols collect: [ :s | s asString capitalized ].
+]
+
+{ #category : #'instance creation' }
+STTaskState class >> allSymbols [
+	"Create Task in #working state"
+	^ #(abandoned blocked finished validation working).
+]
+
+{ #category : #'instance creation' }
 STTaskState class >> blocked [
 	"Create Task in #blocked state"
 	^ self new id: #blocked
@@ -38,6 +50,12 @@ STTaskState class >> blocked [
 STTaskState class >> finished [
 	"Create Task in #finished state"
 	^ self new id: #finished
+]
+
+{ #category : #'instance creation' }
+STTaskState class >> named: aSymbolOrString [
+	"Create Task in #working state"
+	^ self perform: (aSymbolOrString asString asLowercase asSymbol).
 ]
 
 { #category : #'instance creation' }

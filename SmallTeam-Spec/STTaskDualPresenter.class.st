@@ -9,7 +9,9 @@ Class {
 		'taskListPresenter',
 		'taskFormPresenter',
 		'personFilterPresenter',
-		'personFilter'
+		'personFilter',
+		'stateFilterPresenter',
+		'stateFilter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -18,7 +20,7 @@ Class {
 STTaskDualPresenter >> applyFilters [ 
 	| filteredByName |
 	filteredByName := STData tasks select: personFilter.
-	^ filteredByName. 
+	^ filteredByName select: stateFilter. 
 ]
 
 { #category : #initialization }
@@ -37,7 +39,8 @@ STTaskDualPresenter >> defaultLayout [
 					add: taskFormPresenter;
 					yourself);
 		add: actionBar;
-		add: personFilterPresenter ;
+		add: personFilterPresenter;
+		add: stateFilterPresenter;
 		yourself.
 
 	
@@ -68,10 +71,9 @@ STTaskDualPresenter >> initializeActionBar [
 ]
 
 { #category : #initialization }
-STTaskDualPresenter >> initializePresenters [
+STTaskDualPresenter >> initializePersonFilter [
 	"Initialize controls"	
-	| selected peopleNames |
-	 
+	| peopleNames  |
 	personFilter := [ :p | true ].
 	peopleNames := STData developers collect: [ :p | p name ].
 	personFilterPresenter := STRadioChooserPresenter on: peopleNames.
@@ -79,6 +81,16 @@ STTaskDualPresenter >> initializePresenters [
 	personFilterPresenter action: [ :name | 
 		personFilter := [ :t | name = 'all' or: [  name = (t assignedTo ifNotNil: [ t assignedTo name ]) ]  ].
 		self reLoad ].
+
+]
+
+{ #category : #initialization }
+STTaskDualPresenter >> initializePresenters [
+	"Initialize controls"	
+	| selected  |
+	 
+	self initializePersonFilter.
+	self initializeStateFilter.
 	
 	selected := STData tasks at: 1.
 	taskListPresenter := self instantiate: STTaskListPresenter on: STData tasks.
@@ -86,6 +98,18 @@ STTaskDualPresenter >> initializePresenters [
 	taskFormPresenter := self instantiate: STTaskFormPresenter on: selected.
 	
 	self initializeActionBar.
+
+]
+
+{ #category : #initialization }
+STTaskDualPresenter >> initializeStateFilter [
+	"Initialize controls"	
+	stateFilter := [ :p | true ].
+	stateFilterPresenter := STRadioChooserPresenter on: (STTaskState allNames).
+	stateFilterPresenter labelText: 'State: '.
+	stateFilterPresenter action: [ :name | 
+		stateFilter := [ :t | name = 'all' or: [  name = (t currentState ifNotNil: [ t currentState name ]) ]  ].
+		self reLoad ].
 
 ]
 
