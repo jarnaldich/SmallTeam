@@ -19,9 +19,7 @@ Class {
 STRadioChooserPresenter >> action [
 
 	^ action ifNil: [ 
-		action := [ :value | 
-			UIManager default defer: [ self inform: (' chosen.', value )
-		] ] ]
+		action := [ :value |  ] ]
 ]
 
 { #category : #accessing }

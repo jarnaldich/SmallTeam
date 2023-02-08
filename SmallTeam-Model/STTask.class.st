@@ -21,7 +21,9 @@ Class {
 		'estimatedDuration',
 		'title',
 		'description',
-		'refDoc'
+		'refDoc',
+		'priority',
+		'type'
 	],
 	#category : #'SmallTeam-Model'
 }
@@ -89,6 +91,18 @@ STTask >> estimatedDuration: anObject [
 ]
 
 { #category : #accessing }
+STTask >> priority [
+
+	^ priority ifNil: [ priority := 10 ]
+]
+
+{ #category : #accessing }
+STTask >> priority: anObject [
+
+	priority := anObject
+]
+
+{ #category : #accessing }
 STTask >> refDoc [
 
 	^ refDoc ifNil: [ '' ]
@@ -116,4 +130,16 @@ STTask >> title [
 STTask >> title: anObject [
 
 	title := anObject
+]
+
+{ #category : #accessing }
+STTask >> type [
+
+	^ type
+]
+
+{ #category : #accessing }
+STTask >> type: anObject [
+
+	type := anObject
 ]

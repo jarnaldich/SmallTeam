@@ -42,7 +42,7 @@ STTaskState class >> allNames [
 
 { #category : #'instance creation' }
 STTaskState class >> allSymbols [
-	"Create Task in #working state"
+	"all symbolss"	
 	^ #(abandoned blocked finished validation working).
 ]
 

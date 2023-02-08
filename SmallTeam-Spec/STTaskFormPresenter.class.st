@@ -10,7 +10,8 @@ Class {
 		'refDocTextInput',
 		'actionBar',
 		'taskStatePresenter',
-		'personChoosePresenter'
+		'personChoosePresenter',
+		'taskTypePresenter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -68,7 +69,9 @@ STTaskFormPresenter >> defaultLayout [
 						add: taskStatePresenter 
 						withConstraints: [ :c | c width: 150 ]; 	
 						add: personChoosePresenter  
-						withConstraints: [ :c | c width: 150 ]; 				
+						withConstraints: [ :c | c width: 150 ]; 		
+						add: taskTypePresenter  
+						withConstraints: [ :c | c width: 150 ]; 		
 						yourself)
 
 				 withConstraints: [ :c | c width: 100 ];	
@@ -98,7 +101,7 @@ STTaskFormPresenter >> initializeDialogWindow: aDialogWindowPresenter [
 
 	aDialogWindowPresenter 
 		title: 'Task';
-		initialExtent: 500@500;
+		initialExtent: 800@500;
 		addButton: 'Ok' do: [  :dialog |
 			self updateModel.
 			dialog close ];
@@ -117,6 +120,7 @@ STTaskFormPresenter >> initializePresenters [
 	
 	taskStatePresenter := STTaskStatePresenter on: self model. "or announcingObject?"
 	personChoosePresenter := STPersonChoosePresenter on: self model.
+	taskTypePresenter := STTaskTypePresenter on: self model.
 	
 	actionBar := self newActionBar
 		addLast: (self newButton
@@ -137,6 +141,7 @@ STTaskFormPresenter >> modelChanged [
 	self refDocTextInput text: self model refDoc.
 	self taskStatePresenter model: self model.
 	self personChoosePresenter model: self model.
+	self taskTypePresenter model: self model.
 	
 ]
 
@@ -185,6 +190,18 @@ STTaskFormPresenter >> taskStatePresenter [
 STTaskFormPresenter >> taskStatePresenter: anObject [
 
 	taskStatePresenter := anObject
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> taskTypePresenter [
+
+	^ taskTypePresenter
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> taskTypePresenter: anObject [
+
+	taskTypePresenter := anObject
 ]
 
 { #category : #accessing }
