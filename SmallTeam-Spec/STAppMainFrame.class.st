@@ -21,6 +21,13 @@ STAppMainFrame >> defaultLayout [
 ]
 
 { #category : #initialization }
+STAppMainFrame >> doLoad [
+	STData tasksLoad.
+	dualPresenter reLoad.
+	self inform: 'Loaded' 
+]
+
+{ #category : #initialization }
 STAppMainFrame >> doSave [
 	STData tasksSave.
 	self inform: 'Saved' 
@@ -39,9 +46,9 @@ STAppMainFrame >> initializePresenters [
 			yourself);
 		addItem: (SpToolbarButtonPresenter new
 			label: 'Load';
-			icon: (self iconNamed: #smallLoad);
+			icon: (self iconNamed: #smallOpen);
 			help: 'Load';
-			action: [ self inform: 'Load' ];
+			action: [ self doLoad ];
 			yourself);
 		yourself.
 		

@@ -30,19 +30,15 @@ STTaskFormPresenter >> actionBar: anObject [
 { #category : #initialization }
 STTaskFormPresenter >> connectPresenters [
 
-	self descriptionTextInput whenEditableChangedDo:  [ :old :n :e | 
-		self updateModel ].
-	self titleTextInput whenEditableChangedDo: [ :old :n :e |
-		self updateModel ].
+	self descriptionTextInput whenTextChangedDo:  [ :new :old | 
+		self model description: new ].
 	
-	"self descriptionTextInput whenSubmitDo: [ :txt | 
-		self model description: txt.
-		Transcript crShow: 'Description ', self model description.
-		self announcingObject valueChanged.
-		Transcript show: self announcingObject; cr.
-		Transcript show: self model; cr.
-		Transcript show: txt; cr. ].	
-	"
+	self titleTextInput whenTextChangedDo: [ :new :old |
+			self model title: new ].
+	
+	self refDocTextInput  whenTextChangedDo: [ :new :old |
+			self model refDoc: new ].
+	
 ]
 
 { #category : #layout }

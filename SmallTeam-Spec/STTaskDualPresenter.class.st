@@ -90,6 +90,17 @@ STTaskDualPresenter >> newTask [
 ]
 
 { #category : #initialization }
+STTaskDualPresenter >> reLoad [
+	"Called when database is loaded from disk"	
+	| selected |
+	selected := STData tasks at: 1.
+	taskListPresenter model: STData tasks.
+	
+	taskListPresenter selectIndex: 1.
+	taskFormPresenter model: selected.
+]
+
+{ #category : #initialization }
 STTaskDualPresenter >> removeSelectedTask [
 	| t  |
 	t := taskListPresenter selectedItem.
