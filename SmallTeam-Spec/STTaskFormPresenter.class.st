@@ -11,7 +11,9 @@ Class {
 		'actionBar',
 		'taskStatePresenter',
 		'personChoosePresenter',
-		'taskTypePresenter'
+		'taskTypePresenter',
+		'durationPresenter',
+		'priorityPresenter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -39,6 +41,12 @@ STTaskFormPresenter >> connectPresenters [
 	
 	self refDocTextInput  whenTextChangedDo: [ :new :old |
 			self model refDoc: new ].
+
+	self durationPresenter whenNumberChangedDo: [  :new |
+		self model estimatedDuration: new ].
+	
+	self priorityPresenter whenValueChangedDo: [ :val | 
+		self model priority: val ].
 	
 ]
 
@@ -64,6 +72,20 @@ STTaskFormPresenter >> defaultLayout [
 			fill: false
 			padding: 5;
 			add: refDocTextInput;	
+				
+			add: 'Hores estimades'
+			expand: false
+			fill: false
+			padding: 5;
+			add: durationPresenter ;		
+					
+			spacing: 1;
+					
+			add: 'Prioritat'
+			expand: false
+			fill: false
+			padding: 5;
+			add: priorityPresenter  ;											
 
 			add: (SpBoxLayout newLeftToRight 
 						add: taskStatePresenter 
@@ -76,7 +98,6 @@ STTaskFormPresenter >> defaultLayout [
 
 				 withConstraints: [ :c | c width: 100 ];	
 					
-			add: actionBar;	
 			
 			yourself.
 
@@ -93,6 +114,18 @@ STTaskFormPresenter >> descriptionTextInput [
 STTaskFormPresenter >> descriptionTextInput: anObject [
 
 	descriptionTextInput := anObject
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> durationPresenter [
+
+	^ durationPresenter
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> durationPresenter: anObject [
+
+	durationPresenter := anObject
 ]
 
 { #category : #initialization }
@@ -121,6 +154,11 @@ STTaskFormPresenter >> initializePresenters [
 	taskStatePresenter := STTaskStatePresenter on: self model. "or announcingObject?"
 	personChoosePresenter := STPersonChoosePresenter on: self model.
 	taskTypePresenter := STTaskTypePresenter on: self model.
+	durationPresenter := self newNumberInput.
+	priorityPresenter := self newSlider 
+		min: 0;
+		max: 10.
+		
 	
 	actionBar := self newActionBar
 		addLast: (self newButton
@@ -142,6 +180,8 @@ STTaskFormPresenter >> modelChanged [
 	self taskStatePresenter model: self model.
 	self personChoosePresenter model: self model.
 	self taskTypePresenter model: self model.
+	self durationPresenter number: self model estimatedDuration.
+	self priorityPresenter value: self model priority.
 	
 ]
 
@@ -166,6 +206,18 @@ STTaskFormPresenter >> personChoosePresenter [
 STTaskFormPresenter >> personChoosePresenter: anObject [
 
 	personChoosePresenter := anObject
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> priorityPresenter [
+
+	^ priorityPresenter
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> priorityPresenter: anObject [
+
+	priorityPresenter := anObject
 ]
 
 { #category : #accessing }

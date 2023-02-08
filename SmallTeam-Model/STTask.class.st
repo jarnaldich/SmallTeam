@@ -81,7 +81,7 @@ STTask >> description: anObject [
 { #category : #accessing }
 STTask >> estimatedDuration [
 
-	^ estimatedDuration
+	^ estimatedDuration ifNil: [ estimatedDuration := 1 ]
 ]
 
 { #category : #accessing }
@@ -93,7 +93,7 @@ STTask >> estimatedDuration: anObject [
 { #category : #accessing }
 STTask >> priority [
 
-	^ priority ifNil: [ priority := 10 ]
+	^ priority ifNil: [ priority := 0 ]
 ]
 
 { #category : #accessing }

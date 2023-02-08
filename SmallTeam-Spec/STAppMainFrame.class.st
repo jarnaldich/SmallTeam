@@ -61,5 +61,5 @@ STAppMainFrame >> initializePresenters [
 STAppMainFrame >> initializeWindow: aWindowPresenter [
 	aWindowPresenter 
 		title: 'Tasques UATD';
-		initialExtent: 800@600.
+		initialExtent: 1200@600.
 ]
