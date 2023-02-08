@@ -23,7 +23,18 @@ STTaskListPresenter >> initializePresenters [
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
 	tablePresenter := self newTable 
-		addColumn: (SpStringTableColumn title: 'Title' evaluated: [:task | task title]);
+		addColumn: ((SpStringTableColumn 
+							title: 'Title' 
+							evaluated: [:task | task title])
+							beSortable);
+		addColumn: ((SpStringTableColumn 
+							title: 'Assignee' 
+							evaluated: [:task | task assignedTo ifNil: ['-'] ifNotNil: [ :p | p name ] ]) 							beSortable
+			);
+		addColumn: ((SpStringTableColumn 
+							title: 'State' 
+							evaluated: [:task | task currentState ifNil: ['-'] ifNotNil: [ :p | p name ] ]) 							beSortable
+			);			
 		contextMenu: self taskListContextMenu;
 		yourself.
 

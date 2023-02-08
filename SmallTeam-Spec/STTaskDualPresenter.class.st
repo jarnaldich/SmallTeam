@@ -7,10 +7,19 @@ Class {
 	#instVars : [
 		'actionBar',
 		'taskListPresenter',
-		'taskFormPresenter'
+		'taskFormPresenter',
+		'personFilterPresenter',
+		'personFilter'
 	],
 	#category : #'SmallTeam-Spec'
 }
+
+{ #category : #initialization }
+STTaskDualPresenter >> applyFilters [ 
+	| filteredByName |
+	filteredByName := STData tasks select: personFilter.
+	^ filteredByName. 
+]
 
 { #category : #initialization }
 STTaskDualPresenter >> connectPresenters [ 
@@ -22,26 +31,20 @@ STTaskDualPresenter >> connectPresenters [
 STTaskDualPresenter >> defaultLayout [ 
 	"Initialize  layout"	
 			
-	^ SpBoxLayout newVertical 
+	^ SpBoxLayout newVertical   
 		add: (SpPanedLayout  newLeftToRight 
 					add: taskListPresenter;
 					add: taskFormPresenter;
 					yourself);
 		add: actionBar;
+		add: personFilterPresenter ;
 		yourself.
 
 	
 ]
 
 { #category : #initialization }
-STTaskDualPresenter >> initializePresenters [
-	"Initialize controls"	
-	| selected |
-	selected := STData tasks at: 1.
-	taskListPresenter := self instantiate: STTaskListPresenter on: STData tasks.
-	taskListPresenter selectIndex: 1.
-	taskFormPresenter := self instantiate: STTaskFormPresenter on: selected.
-	
+STTaskDualPresenter >> initializeActionBar [
 	actionBar := self newActionBar
 		add: (self newButton
 			label: 'Add'; 
@@ -61,6 +64,29 @@ STTaskDualPresenter >> initializePresenters [
 			];
 			yourself);
 		yourself
+
+]
+
+{ #category : #initialization }
+STTaskDualPresenter >> initializePresenters [
+	"Initialize controls"	
+	| selected peopleNames |
+	 
+	personFilter := [ :p | true ].
+	peopleNames := STData developers collect: [ :p | p name ].
+	personFilterPresenter := STRadioChooserPresenter on: peopleNames.
+	personFilterPresenter labelText: 'Assignee: '.
+	personFilterPresenter action: [ :name | 
+		personFilter := [ :t | name = 'all' or: [  name = (t assignedTo ifNotNil: [ t assignedTo name ]) ]  ].
+		self reLoad ].
+	
+	selected := STData tasks at: 1.
+	taskListPresenter := self instantiate: STTaskListPresenter on: STData tasks.
+	taskListPresenter selectIndex: 1.
+	taskFormPresenter := self instantiate: STTaskFormPresenter on: selected.
+	
+	self initializeActionBar.
+
 ]
 
 { #category : #initialization }
@@ -92,12 +118,22 @@ STTaskDualPresenter >> newTask [
 { #category : #initialization }
 STTaskDualPresenter >> reLoad [
 	"Called when database is loaded from disk"	
-	| selected |
-	selected := STData tasks at: 1.
-	taskListPresenter model: STData tasks.
+	| selected data |
+	data := self applyFilters.
+	taskListPresenter model: data.
 	
-	taskListPresenter selectIndex: 1.
-	taskFormPresenter model: selected.
+	"XXX aqui si el resultat es buit caldria desactivar el formulari..."
+	data ifNotEmpty: [ 
+		taskFormPresenter show.
+		selected := data at: 1.
+		taskListPresenter selectIndex: 1.
+		taskFormPresenter model: selected.
+	] ifEmpty: [ 
+		taskFormPresenter hide.
+	] 
+	
+	
+	
 ]
 
 { #category : #initialization }

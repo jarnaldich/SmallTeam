@@ -60,6 +60,11 @@ STTask >> creationDate: anObject [
 ]
 
 { #category : #accessing }
+STTask >> currentState [ 
+	^ self taskStateLog currentState 
+]
+
+{ #category : #accessing }
 STTask >> description [
 
 	^ description ifNil: [ '' ]
