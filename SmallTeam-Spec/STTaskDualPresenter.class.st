@@ -105,12 +105,19 @@ STTaskDualPresenter >> initializePresenters [
 STTaskDualPresenter >> initializeStateFilter [
 	"Initialize controls"	
 	stateFilter := [ :p | true ].
-	stateFilterPresenter := STRadioChooserPresenter on: (STTaskState allNames).
+	stateFilterPresenter := STRadioChooserPresenter on: 
+		((STTaskState allNames asOrderedCollection) addFirst: 'Active'; yourself).
 	stateFilterPresenter labelText: 'State: '.
 	stateFilterPresenter action: [ :name | 
-		stateFilter := [ :t | name = 'all' or: [  name = (t currentState ifNotNil: [ t currentState name ]) ]  ].
-		self reLoad ].
-
+		stateFilter := [ :t | 
+			(name = 'all' 
+			or: [ name = 'Active' and: [ t currentState isActive ] ])
+			or: [ | taskStateName |
+					taskStateName := (t currentState ifNotNil: [ t  currentState name ]).
+					name =  taskStateName ]  
+		].
+		self reLoad.
+	].
 ]
 
 { #category : #initialization }

@@ -29,6 +29,12 @@ STTaskState class >> abandoned [
 ]
 
 { #category : #'instance creation' }
+STTaskState class >> activeSymbols [
+	"Create Task in #working state"
+	^ #(blocked validation working).
+]
+
+{ #category : #'instance creation' }
 STTaskState class >> allNames [
 	"Create Task in #working state"
 	^ self allSymbols collect: [ :s | s asString capitalized ].
@@ -87,6 +93,12 @@ STTaskState >> id [
 STTaskState >> id: anObject [
 
 	id := anObject
+]
+
+{ #category : #accessing }
+STTaskState >> isActive [
+
+	^ self class activeSymbols includes: self id.
 ]
 
 { #category : #converting }
