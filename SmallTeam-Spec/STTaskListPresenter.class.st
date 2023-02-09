@@ -23,6 +23,12 @@ STTaskListPresenter >> initializePresenters [
 	"comment stating purpose of instance-side method"
 	tablePresenter := self newTable 
 		addColumn: ((SpStringTableColumn 
+							title: 'Priority' 
+							evaluated: [:task | task priority printPaddedWith: Character space to: 2])
+							beSortable;
+							width: 40;
+							yourself);	
+		addColumn: ((SpStringTableColumn 
 							title: 'Who' 
 							evaluated: [:task | task assignedTo ifNil: ['-'] ifNotNil: [ :p | p name ] ])
 							beSortable;

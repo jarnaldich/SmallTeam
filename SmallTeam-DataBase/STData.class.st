@@ -8,6 +8,7 @@ Class {
 	#superclass : #Object,
 	#classVars : [
 		'developers',
+		'projects',
 		'tasks'
 	],
 	#category : #'SmallTeam-DataBase'
@@ -39,6 +40,30 @@ STData class >> developers [
 STData class >> developers: anObject [
 
 	developers := anObject
+]
+
+{ #category : #'as yet unclassified' }
+STData class >> projectByName: aString [
+	"returns developer by name"
+	^ self projects at: aString.
+]
+
+{ #category : #accessing }
+STData class >> projects [
+
+	^ projects ifNil: [ 
+		projects := Dictionary  new.
+		#('orto' 'distrib' 'minerva' 'fototeca' 'i+d' 
+		  'ct1mv3' 'rtt' 'sidl' 'serveis' 'gestio') do: [ :p |
+			projects at: p put: (STProject new name: p)
+		]
+	]
+]
+
+{ #category : #accessing }
+STData class >> projects: anObject [
+
+	projects := anObject
 ]
 
 { #category : #accessing }

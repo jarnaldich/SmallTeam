@@ -23,7 +23,8 @@ Class {
 		'description',
 		'refDoc',
 		'priority',
-		'type'
+		'type',
+		'project'
 	],
 	#category : #'SmallTeam-Model'
 }
@@ -99,7 +100,19 @@ STTask >> priority [
 { #category : #accessing }
 STTask >> priority: anObject [
 
-	priority := anObject
+	priority := anObject asInteger
+]
+
+{ #category : #accessing }
+STTask >> project [
+
+	^ project
+]
+
+{ #category : #accessing }
+STTask >> project: anObject [
+
+	project := anObject
 ]
 
 { #category : #accessing }

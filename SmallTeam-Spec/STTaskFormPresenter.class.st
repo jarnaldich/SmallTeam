@@ -13,7 +13,8 @@ Class {
 		'personChoosePresenter',
 		'taskTypePresenter',
 		'durationPresenter',
-		'priorityPresenter'
+		'priorityPresenter',
+		'projectPresenter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -94,6 +95,8 @@ STTaskFormPresenter >> defaultLayout [
 						withConstraints: [ :c | c width: 150 ]; 		
 						add: taskTypePresenter  
 						withConstraints: [ :c | c width: 150 ]; 		
+						add: projectPresenter   
+						withConstraints: [ :c | c width: 150 ]; 	
 						yourself)
 
 				 withConstraints: [ :c | c width: 100 ];	
@@ -159,6 +162,8 @@ STTaskFormPresenter >> initializePresenters [
 		min: 0;
 		max: 10.
 		
+	self initializeProjectPresenter.
+		
 	
 	actionBar := self newActionBar
 		addLast: (self newButton
@@ -173,6 +178,20 @@ STTaskFormPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
+STTaskFormPresenter >> initializeProjectPresenter [
+	"Initializes project drop down list"
+	| items |
+	items := STData projects asOrderedCollection collect: [:p | p name ].
+	items addFirst: '-'.
+	projectPresenter := self newDropList 
+		items: items; "tb hi ha display: i displayIcon:, si vols"
+		whenSelectedItemChangedDo: [ :p | 
+			p = '-' 
+				ifTrue: [ self model project: nil ] 
+			  	ifFalse: [ self model project: (STData projectByName: p) ]].
+]
+
+{ #category : #initialization }
 STTaskFormPresenter >> modelChanged [ 
 	self titleTextInput text: self model title.
 	self descriptionTextInput text: self model description.
@@ -182,7 +201,7 @@ STTaskFormPresenter >> modelChanged [
 	self taskTypePresenter model: self model.
 	self durationPresenter number: self model estimatedDuration.
 	self priorityPresenter value: self model priority.
-	
+	self projectPresenter selectItem: (self model project ifNotNil: [ :p | p name] ifNil: '-').
 ]
 
 { #category : #initialization }
@@ -218,6 +237,18 @@ STTaskFormPresenter >> priorityPresenter [
 STTaskFormPresenter >> priorityPresenter: anObject [
 
 	priorityPresenter := anObject
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> projectPresenter [
+
+	^ projectPresenter
+]
+
+{ #category : #accessing }
+STTaskFormPresenter >> projectPresenter: anObject [
+
+	projectPresenter := anObject
 ]
 
 { #category : #accessing }
