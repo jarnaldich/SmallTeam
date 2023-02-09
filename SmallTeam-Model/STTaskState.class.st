@@ -42,8 +42,14 @@ STTaskState class >> allNames [
 
 { #category : #'instance creation' }
 STTaskState class >> allSymbols [
-	"all symbolss"	
-	^ #(abandoned blocked finished validation working priorize).
+	"priorize -> assigned -> [ working blocked abandoned ] -> validation? -> finished "	
+	^ #(assigned abandoned blocked finished validation working priorize).
+]
+
+{ #category : #'instance creation' }
+STTaskState class >> assigned [
+	"Create Task in #assigned state"
+	^ self new id: #assigned
 ]
 
 { #category : #'instance creation' }
