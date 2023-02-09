@@ -68,11 +68,15 @@ STTaskFormPresenter >> defaultLayout [
 			padding: 5;
 			add: descriptionTextInput  withConstraints: [ :c | c height: 120 ];
 			
+			spacing: 1;
+			
 			add: 'Doc. extra (url, correu...)'
 			expand: false
 			fill: false
 			padding: 5;
 			add: refDocTextInput;	
+				
+			spacing: 1;	
 				
 			add: 'Hores estimades'
 			expand: false

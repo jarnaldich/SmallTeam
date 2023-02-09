@@ -39,8 +39,8 @@ STTaskDualPresenter >> defaultLayout [
 					add: taskFormPresenter;
 					yourself);
 		add: actionBar;
-		add: personFilterPresenter;
-		add: stateFilterPresenter;
+		addLast: personFilterPresenter;
+		addLast: stateFilterPresenter;
 		yourself.
 
 	

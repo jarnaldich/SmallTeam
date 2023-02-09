@@ -43,7 +43,7 @@ STTaskState class >> allNames [
 { #category : #'instance creation' }
 STTaskState class >> allSymbols [
 	"all symbolss"	
-	^ #(abandoned blocked finished validation working).
+	^ #(abandoned blocked finished validation working priorize).
 ]
 
 { #category : #'instance creation' }
@@ -62,6 +62,12 @@ STTaskState class >> finished [
 STTaskState class >> named: aSymbolOrString [
 	"Create Task in #working state"
 	^ self perform: (aSymbolOrString asString asLowercase asSymbol).
+]
+
+{ #category : #'instance creation' }
+STTaskState class >> priorize [
+	"Create Task in #priorize state"
+	^ self new id: #priorize
 ]
 
 { #category : #'instance creation' }

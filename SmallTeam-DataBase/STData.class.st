@@ -53,8 +53,9 @@ STData class >> projects [
 
 	^ projects ifNil: [ 
 		projects := Dictionary  new.
-		#('orto' 'distrib' 'minerva' 'fototeca' 'i+d' 
-		  'ct1mv3' 'rtt' 'sidl' 'serveis' 'gestio') do: [ :p |
+		#('orto'
+		  'distrib' 'minerva' 'fototeca' 'i+d' 
+		  'ct1mv3' 'rtt' 'sidl' 'serveis' 'gestio' 'newspace' 'cintoteca') do: [ :p |
 			projects at: p put: (STProject new name: p)
 		]
 	]

@@ -28,7 +28,7 @@ STTaskType class >> allNames [
 { #category : #'instance creation' }
 STTaskType class >> allSymbols [ 
 	"all symbolss"	
-	^ #(bug millora seguiment backlog dades peticio).
+	^ #(bug millora manteniment seguiment backlog dades peticio).
 ]
 
 { #category : #'instance creation' }
@@ -47,6 +47,12 @@ STTaskType class >> bug [
 STTaskType class >> dades [
 	"Create a #dades TaskType"
 	^ self new id: #dades
+]
+
+{ #category : #'instance creation' }
+STTaskType class >> manteniment [
+	"Create a #manteniment TaskType. P.ex canvis que venen imposats per migracions postgres..."
+	^ self new id: #manteniment
 ]
 
 { #category : #'instance creation' }

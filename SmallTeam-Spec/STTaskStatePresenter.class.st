@@ -44,7 +44,7 @@ STTaskStatePresenter >> initializePresenters [
 		label:  (currentState ifNil: ['Estat'] ifNotNil: [ currentState name]).
 	menu := (SpMenuPresenter new)
 		addGroup: [ :group | 
-			#(working blocked validation finished abandoned) do: [ :sid |
+			STTaskState allSymbols do: [ :sid |
 				group addItem: [ :item | 
 					| label |
 					label := sid asString capitalized.
