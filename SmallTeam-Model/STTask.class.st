@@ -113,6 +113,23 @@ STTask >> estimatedDuration: anObject [
 ]
 
 { #category : #accessing }
+STTask >> getUrl [
+	"Returns an appropiate URL from the refDoc field"
+	| prefixRe  outLookPattern refDocOrEmpty |
+	refDocOrEmpty := self refDoc ifNil: [ ' ' ].
+	outLookPattern := 'https://outlook.office365.com/owa/?ItemID={1}&exvsurl=1&viewmodel=ReadMessageItem'.
+	prefixRe := 'https\://outlook.office.com/mail/id/(.*)' asRegex.
+	
+	(prefixRe matchesPrefix: refDocOrEmpty)
+		ifTrue: [ ^  outLookPattern format: { prefixRe subexpression: 2 }].
+		
+	('https\:' asRegex matchesPrefix: refDocOrEmpty)
+		ifTrue: [ ^ self refDoc  ].
+		
+	^ refDocOrEmpty.
+]
+
+{ #category : #accessing }
 STTask >> priority [
 
 	^ priority ifNil: [ priority := 0 ]

@@ -14,7 +14,8 @@ Class {
 		'taskTypePresenter',
 		'durationPresenter',
 		'priorityPresenter',
-		'projectPresenter'
+		'projectPresenter',
+		'refDocLink'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -56,6 +57,7 @@ STTaskFormPresenter >> defaultLayout [
 	"Initialize  layout"	
 			
 	^ SpBoxLayout newTopToBottom 
+			homogeneous: false;
 			add: 'Títol'
 			expand: false
 			fill: false
@@ -70,10 +72,10 @@ STTaskFormPresenter >> defaultLayout [
 			
 			spacing: 1;
 			
-			add: 'Doc. extra (url, correu...)'
+			add: refDocLink
 			expand: false
 			fill: false
-			padding: 5;
+			padding: 1;
 			add: refDocTextInput;	
 				
 			spacing: 1;	
@@ -171,6 +173,7 @@ STTaskFormPresenter >> initializePresenters [
 	descriptionTextInput :=  self newTextInput.
 	descriptionTextInput := self newText.
 	refDocTextInput := self newTextInput.
+	refDocLink := self newLink.
 	
 	durationPresenter := self newNumberInput.
 	priorityPresenter := self newSlider 
@@ -256,7 +259,11 @@ STTaskFormPresenter >> modelChanged [
 		
 	taskTypePresenter selectItem: (self model type
 		ifNotNil: [ :p | p name ]
-		ifNil: [ '-' ])
+		ifNil: [ '-' ]).
+		
+	refDocLink url: self model getUrl.
+	refDocLink label: 'Url:'.
+	
 	
 ]
 
