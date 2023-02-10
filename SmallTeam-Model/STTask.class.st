@@ -51,6 +51,27 @@ STTask >> assignedTo: anObject [
 ]
 
 { #category : #accessing }
+STTask >> changeStateTo: taskSymbolOrStringOrTaskState [
+	| newState |
+
+	(taskSymbolOrStringOrTaskState isKindOf: Symbol)
+		ifTrue: 
+			[ newState := (STTaskState perform: taskSymbolOrStringOrTaskState) ].
+
+	(taskSymbolOrStringOrTaskState isKindOf: String)
+		ifTrue: 
+			[ newState := (STTaskState named: taskSymbolOrStringOrTaskState) ].
+		
+	(taskSymbolOrStringOrTaskState isKindOf: STTaskState)
+		ifTrue: 
+			[ newState := STTaskState ].	
+			
+	newState ifNil: [ AssertionFailure new signal ].
+			
+	self taskStateLog changeStateTo: newState.
+]
+
+{ #category : #accessing }
 STTask >> creationDate [
 
 	^ creationDate ifNil: [ creationDate := DateAndTime now ]

@@ -150,6 +150,20 @@ STTaskFormPresenter >> initializeDialogWindow: aDialogWindowPresenter [
 ]
 
 { #category : #initialization }
+STTaskFormPresenter >> initializePersonChoosePresenter [
+	"Initializes project drop down list"
+	| items |
+	items := STData developers asOrderedCollection collect: [:p | p name ].
+	items addFirst: '-'.
+	personChoosePresenter  := self newDropList 
+		items: items; "tb hi ha display: i displayIcon:, si vols"
+		whenSelectedItemChangedDo: [ :p | 
+			p = '-' 
+				ifTrue: [ self model assignedTo:  nil ] 
+			  	ifFalse: [ self model assignedTo: (STData developerByName: p) ]].
+]
+
+{ #category : #initialization }
 STTaskFormPresenter >> initializePresenters [
 	"Initialize controls"	
 
@@ -158,15 +172,15 @@ STTaskFormPresenter >> initializePresenters [
 	descriptionTextInput := self newText.
 	refDocTextInput := self newTextInput.
 	
-	taskStatePresenter := STTaskStatePresenter on: self model. "or announcingObject?"
-	personChoosePresenter := STPersonChoosePresenter on: self model.
-	taskTypePresenter := STTaskTypePresenter on: self model.
 	durationPresenter := self newNumberInput.
 	priorityPresenter := self newSlider 
 		min: 0;
 		max: 10.
 		
 	self initializeProjectPresenter.
+	self initializeTaskStatePresenter.
+	self initializePersonChoosePresenter.
+	self initializeTaskTypePresenter.
 		
 	
 	actionBar := self newActionBar
@@ -196,16 +210,54 @@ STTaskFormPresenter >> initializeProjectPresenter [
 ]
 
 { #category : #initialization }
+STTaskFormPresenter >> initializeTaskStatePresenter [
+	"Initializes project drop down list"
+	| items |
+	items := STTaskState allNames asOrderedCollection.
+	taskStatePresenter := self newDropList 
+		items: items; "tb hi ha display: i displayIcon:, si vols"
+		whenSelectedItemChangedDo: [ :p | 
+			  	 self model changeStateTo: p ].
+]
+
+{ #category : #initialization }
+STTaskFormPresenter >> initializeTaskTypePresenter [
+	"Initializes project drop down list"
+	| items |
+	items := STTaskType allNames  asOrderedCollection.
+	items addFirst: '-'.
+	taskTypePresenter := self newDropList 
+		items: items; "tb hi ha display: i displayIcon:, si vols"
+		whenSelectedItemChangedDo: [ :p | 
+			p = '-' 
+				ifTrue: [ self model type:  nil ] 
+			  	ifFalse: [ self model type: (STTaskType named: p) ]].
+]
+
+{ #category : #initialization }
 STTaskFormPresenter >> modelChanged [ 
 	self titleTextInput text: self model title.
 	self descriptionTextInput text: self model description.
 	self refDocTextInput text: self model refDoc.
-	self taskStatePresenter model: self model.
+	"self taskStatePresenter model: self model.
 	self personChoosePresenter model: self model.
-	self taskTypePresenter model: self model.
+	self taskTypePresenter model: self model."
 	self durationPresenter number: self model estimatedDuration.
 	self priorityPresenter value: self model priority.
 	self projectPresenter selectItem: (self model project ifNotNil: [ :p | p name] ifNil: '-').
+	
+	taskStatePresenter selectItem: (self model currentState  
+		ifNotNil: [ :p | p name] 
+		ifNil: 'Priorize').
+		
+	personChoosePresenter selectItem: (self model assignedTo
+		ifNotNil: [ :p | p name ]
+		ifNil: [ '-' ]).
+		
+	taskTypePresenter selectItem: (self model type
+		ifNotNil: [ :p | p name ]
+		ifNil: [ '-' ])
+	
 ]
 
 { #category : #initialization }

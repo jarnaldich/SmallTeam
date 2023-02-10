@@ -7,6 +7,15 @@ Class {
 	#category : #'SmallTeam-Spec'
 }
 
+{ #category : #adding }
+STApp class >> addToWorldMenu: aBuilder [
+	"Add the application to the world menu."	
+	<worldMenu>
+	(aBuilder item: #Tasques)
+		order: 100;
+		action: [ self new run ].
+]
+
 { #category : #running }
 STApp >> run [
 
