@@ -17,7 +17,10 @@ Class {
 { #category : #accessing }
 STData class >> defaultRepo [ 
 	"Returns location of repo. Should be machine dendendent, configured or sth in the future..."
-	^ FileLocator localDirectory  / 'iceberg' / 'jarnaldich' / 'SmallTeam' / 'data'
+	NetNameResolver localHostName = 'AGULLANA'
+		ifTrue: [ ^ FileLocator C / 'Users' / 'j.arnaldich' / 'Dropbox' / 'Feina' / 'ICGC' / 'Tasques' ]
+		ifFalse: [ ^ FileLocator localDirectory  / 'iceberg' / 'jarnaldich' / 'SmallTeam' / 'data' ]
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -81,7 +84,9 @@ STData class >> taskRemove: aTask [
 { #category : #accessing }
 STData class >> tasks [
 
-	^ tasks ifNil: [ tasks := OrderedCollection new ]
+	| col |
+	col := tasks ifNil: [ tasks := OrderedCollection new ].
+	^ col reject: [ :t | t isArchived ]
 ]
 
 { #category : #accessing }
@@ -106,6 +111,11 @@ STData class >> tasksLoadFile: aPathString [
 		ifNil: [ ^ false ]
 		ifNotNil: [ self tasks: obj ].
 	^ true.
+]
+
+{ #category : #accessing }
+STData class >> tasksReadyToArchive [
+	^ self tasks select: [ :t | t currentState  id = #finished ]
 ]
 
 { #category : #accessing }

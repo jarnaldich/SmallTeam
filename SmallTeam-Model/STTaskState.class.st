@@ -42,7 +42,9 @@ STTaskState class >> allNames [
 
 { #category : #'instance creation' }
 STTaskState class >> allSymbols [
-	"priorize -> assigned -> [ working blocked abandoned ] -> validation? -> finished "	
+	"priorize -> assigned -> [ working blocked abandoned ] -> validation? -> finished "
+	" archived is an extra symbol because it is 'hidden', there is no way to create an archived
+	task"	
 	^ #(assigned abandoned blocked finished validation working priorize).
 ]
 

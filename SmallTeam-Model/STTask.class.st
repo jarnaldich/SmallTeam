@@ -39,6 +39,14 @@ STTask class >> withTitle: aString [
 ]
 
 { #category : #accessing }
+STTask >> archive [
+	| newState |
+	
+	newState := (STTaskState named: #archived).		
+	self taskStateLog changeStateTo: newState.
+]
+
+{ #category : #accessing }
 STTask >> assignedTo [
 
 	^ assignedTo
@@ -127,6 +135,11 @@ STTask >> getUrl [
 		ifTrue: [ ^ self refDoc  ].
 		
 	^ refDocOrEmpty.
+]
+
+{ #category : #accessing }
+STTask >> isArchived [
+	^ self currentState id = #archived.
 ]
 
 { #category : #accessing }
