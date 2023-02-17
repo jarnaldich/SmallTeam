@@ -86,13 +86,21 @@ STData class >> tasks [
 
 	| col |
 	col := tasks ifNil: [ tasks := OrderedCollection new ].
-	^ col reject: [ :t | t isArchived ]
+	^ tasks := col reject: [ :t | t isArchived ]
 ]
 
 { #category : #accessing }
 STData class >> tasks: anObject [
 
 	tasks := anObject
+]
+
+{ #category : #accessing }
+STData class >> tasksArchive [
+
+	| col |
+	col := tasks ifNil: [ tasks := OrderedCollection new ].
+	^ col detect: [ :t | t isArchived ] ifNone: [ OrderedCollection new ].
 ]
 
 { #category : #accessing }
