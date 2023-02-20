@@ -5,7 +5,9 @@ Class {
 	#name : #STTaskFilterByStatePresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'listPresenter'
+		'listPresenter',
+		'filterChangedBlock',
+		'tasksFilter'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -18,9 +20,27 @@ STTaskFilterByStatePresenter >> defaultLayout [
 			yourself.
 ]
 
+{ #category : #accessing }
+STTaskFilterByStatePresenter >> filterChangedBlock [
+
+	^ filterChangedBlock ifNil: [ filterChangedBlock := [ :f | UIManager default defer: [ self inform: 'Filter Changed' ]  ] ]
+]
+
 { #category : #initialization }
 STTaskFilterByStatePresenter >> initializePresenters [ 
-	listPresenter := self newList 
+	listPresenter := self newList
 		items: STTaskState allNames;
 		beMultipleSelection.
+	listPresenter selectItems: listPresenter items.
+	listPresenter whenSelectionChangedDo: [ :selection |
+		tasksFilter := STTaskFilter withBlock: [ :t | 
+			t currentState 
+				ifNil: [ false ]
+				ifNotNil: [ :s | selection selectedItems includes: s name ]].
+		self filterChangedBlock value: tasksFilter ]
+]
+
+{ #category : #initialization }
+STTaskFilterByStatePresenter >> whenFilterChangedDo: aBlock [
+	filterChangedBlock := aBlock.
 ]
