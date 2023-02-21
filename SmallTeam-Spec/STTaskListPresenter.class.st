@@ -21,6 +21,7 @@ STTaskListPresenter >> defaultLayout [
 { #category : #initialization }
 STTaskListPresenter >> initializePresenters [
 	"comment stating purpose of instance-side method"
+	super initializePresenters.
 	tablePresenter := self newTable 
 		addColumn: ((SpStringTableColumn 
 							title: 'Priority' 

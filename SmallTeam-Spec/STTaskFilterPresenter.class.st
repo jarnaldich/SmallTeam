@@ -28,6 +28,8 @@ STTaskFilterPresenter >> filterChangedBlock [
 
 { #category : #initialization }
 STTaskFilterPresenter >> initializePresenters [ 
+	super initializePresenters.
+	
 	listPresenter := self newList
 		items: self items;
 		beMultipleSelection.

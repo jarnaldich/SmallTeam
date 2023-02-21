@@ -168,7 +168,8 @@ STTaskFormPresenter >> initializePersonChoosePresenter [
 { #category : #initialization }
 STTaskFormPresenter >> initializePresenters [
 	"Initialize controls"	
-
+	super initializePresenters.
+	
 	titleTextInput := self newTextInput.
 	descriptionTextInput :=  self newTextInput.
 	descriptionTextInput := self newText.

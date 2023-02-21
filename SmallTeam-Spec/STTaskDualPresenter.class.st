@@ -11,7 +11,8 @@ Class {
 		'personFilterPresenter',
 		'personFilter',
 		'stateFilterPresenter',
-		'stateFilter'
+		'stateFilter',
+		'filterPanel'
 	],
 	#category : #'SmallTeam-Spec'
 }
@@ -39,6 +40,7 @@ STTaskDualPresenter >> defaultLayout [
 					add: taskFormPresenter;
 					yourself);
 		add: actionBar;
+		addLast: filterPanel ;
 		addLast: personFilterPresenter;
 		addLast: stateFilterPresenter;
 		yourself.
@@ -71,6 +73,11 @@ STTaskDualPresenter >> initializeActionBar [
 ]
 
 { #category : #initialization }
+STTaskDualPresenter >> initializeFilterPanel [
+	filterPanel := STTaskFilterPanelPresenter new.
+]
+
+{ #category : #initialization }
 STTaskDualPresenter >> initializePersonFilter [
 	"Initialize controls"	
 	| peopleNames  |
@@ -88,9 +95,10 @@ STTaskDualPresenter >> initializePersonFilter [
 STTaskDualPresenter >> initializePresenters [
 	"Initialize controls"	
 	| selected  |
-	 
+	super initializePresenters.
 	self initializePersonFilter.
 	self initializeStateFilter.
+	self initializeFilterPanel.
 	
 	selected := STData tasks at: 1.
 	taskListPresenter := self instantiate: STTaskListPresenter on: STData tasks.
