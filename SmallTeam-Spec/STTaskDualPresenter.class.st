@@ -8,20 +8,18 @@ Class {
 		'actionBar',
 		'taskListPresenter',
 		'taskFormPresenter',
-		'personFilterPresenter',
-		'personFilter',
-		'stateFilterPresenter',
-		'stateFilter',
 		'filterPanel'
 	],
 	#category : #'SmallTeam-Spec'
 }
 
 { #category : #initialization }
-STTaskDualPresenter >> applyFilters [ 
+STTaskDualPresenter >> applyFilters [
+	^ STData tasks select: (filterPanel tasksFilter).
+	" 
 	| filteredByName |
 	filteredByName := STData tasks select: personFilter.
-	^ filteredByName select: stateFilter. 
+	^ filteredByName select: stateFilter. "
 ]
 
 { #category : #initialization }
@@ -41,8 +39,6 @@ STTaskDualPresenter >> defaultLayout [
 					yourself);
 		add: actionBar;
 		addLast: filterPanel ;
-		addLast: personFilterPresenter;
-		addLast: stateFilterPresenter;
 		yourself.
 
 	
@@ -75,20 +71,9 @@ STTaskDualPresenter >> initializeActionBar [
 { #category : #initialization }
 STTaskDualPresenter >> initializeFilterPanel [
 	filterPanel := STTaskFilterPanelPresenter new.
-]
-
-{ #category : #initialization }
-STTaskDualPresenter >> initializePersonFilter [
-	"Initialize controls"	
-	| peopleNames  |
-	personFilter := [ :p | true ].
-	peopleNames := STData developers collect: [ :p | p name ].
-	personFilterPresenter := STRadioChooserPresenter on: peopleNames.
-	personFilterPresenter labelText: 'Assignee: '.
-	personFilterPresenter action: [ :name | 
-		personFilter := [ :t | name = 'all' or: [  name = (t assignedTo ifNotNil: [ t assignedTo name ]) ]  ].
-		self reLoad ].
-
+	filterPanel whenFilterChangedDo: [ :f |
+		self reLoad ]
+	
 ]
 
 { #category : #initialization }
@@ -96,8 +81,6 @@ STTaskDualPresenter >> initializePresenters [
 	"Initialize controls"	
 	| selected  |
 	super initializePresenters.
-	self initializePersonFilter.
-	self initializeStateFilter.
 	self initializeFilterPanel.
 	
 	selected := STData tasks at: 1.
@@ -107,25 +90,6 @@ STTaskDualPresenter >> initializePresenters [
 	
 	self initializeActionBar.
 
-]
-
-{ #category : #initialization }
-STTaskDualPresenter >> initializeStateFilter [
-	"Initialize controls"	
-	stateFilter := [ :p | true ].
-	stateFilterPresenter := STRadioChooserPresenter on: 
-		((STTaskState allNames asOrderedCollection) addFirst: 'Active'; yourself).
-	stateFilterPresenter labelText: 'State: '.
-	stateFilterPresenter action: [ :name | 
-		stateFilter := [ :t | 
-			(name = 'all' 
-			or: [ name = 'Active' and: [ t currentState isActive ] ])
-			or: [ | taskStateName |
-					taskStateName := (t currentState ifNotNil: [ t  currentState name ]).
-					name =  taskStateName ]  
-		].
-		self reLoad.
-	].
 ]
 
 { #category : #initialization }

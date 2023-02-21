@@ -1,3 +1,6 @@
+"
+I am a task filter combinator. I return true if any of my children return true.
+"
 Class {
 	#name : #STTaskFilterCombinatorOr,
 	#superclass : #STTaskFilterCombinator,
