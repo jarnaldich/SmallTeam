@@ -27,6 +27,5 @@ STTaskFilterListPresenter >> initializePresenters [
 		beMultipleSelection.
 	listPresenter selectItems: listPresenter items.
 	listPresenter whenSelectionChangedDo: [ :selection |
-		self buildTaskFilter: selection.
-		self filterChangedBlock value: tasksFilter ]
+		self buildTaskFilterAndCallBack: selection ]
 ]

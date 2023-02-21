@@ -12,6 +12,14 @@ Class {
 }
 
 { #category : #initialization }
+STTaskFilterPanelPresenter >> buildTaskFilter: anObject [
+	tasksFilter  := STTaskFilterCombinatorAnd withChildren: { 
+		taskFilterByStatePresenter tasksFilter .
+		taskFilterByDeveloperPresenter tasksFilter .
+	}
+]
+
+{ #category : #initialization }
 STTaskFilterPanelPresenter >> defaultLayout [ 
 	^ SpBoxLayout newLeftToRight 
 			add: (SpBoxLayout newTopToBottom 
@@ -26,7 +34,11 @@ STTaskFilterPanelPresenter >> defaultLayout [
 { #category : #initialization }
 STTaskFilterPanelPresenter >> initializePresenters [ 
 	super initializePresenters.
-	taskFilterByStatePresenter := STTaskFilterByStatePresenter new.
-	taskFilterByDeveloperPresenter := STTaskFilterByDeveloperPresenter new.
+	taskFilterByStatePresenter := STTaskFilterByStatePresenter new
+		whenFilterChangedDo: [ :f | self buildTaskFilterAndCallBack: f ].
+	taskFilterByDeveloperPresenter := STTaskFilterByDeveloperPresenter new
+		whenFilterChangedDo: [ :f | self buildTaskFilterAndCallBack: f ].
+	
+	
 	
 ]

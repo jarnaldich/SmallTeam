@@ -11,10 +11,28 @@ Class {
 	#category : #'SmallTeam-Spec'
 }
 
+{ #category : #initialization }
+STTaskFilterPresenter >> buildTaskFilterAndCallBack: anObject [
+	self buildTaskFilter: anObject.
+	self filterChangedBlock value: tasksFilter.
+]
+
 { #category : #accessing }
 STTaskFilterPresenter >> filterChangedBlock [
 
 	^ filterChangedBlock ifNil: [ filterChangedBlock := [ :f | UIManager default defer: [ self inform: 'Filter Changed' ]  ] ]
+]
+
+{ #category : #accessing }
+STTaskFilterPresenter >> tasksFilter [
+
+	^ tasksFilter ifNil: [ tasksFilter := STTaskFilter new ]
+]
+
+{ #category : #accessing }
+STTaskFilterPresenter >> tasksFilter: anObject [
+
+	tasksFilter := anObject
 ]
 
 { #category : #initialization }
