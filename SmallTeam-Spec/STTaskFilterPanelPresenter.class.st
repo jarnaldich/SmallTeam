@@ -3,7 +3,7 @@ I am the presenter holding all the Task Filter Presenters.
 "
 Class {
 	#name : #STTaskFilterPanelPresenter,
-	#superclass : #SpPresenter,
+	#superclass : #STTaskFilterPresenter,
 	#instVars : [
 		'taskFilterByStatePresenter',
 		'taskFilterByDeveloperPresenter'

@@ -3,7 +3,7 @@ I am a presenter class for constructing Task Filters based on values of the assi
 "
 Class {
 	#name : #STTaskFilterByDeveloperPresenter,
-	#superclass : #STTaskFilterPresenter,
+	#superclass : #STTaskFilterListPresenter,
 	#category : #'SmallTeam-Spec'
 }
 
