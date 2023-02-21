@@ -21,6 +21,14 @@ STAppMainFrame >> defaultLayout [
 ]
 
 { #category : #initialization }
+STAppMainFrame >> doArchive [
+	STData tasksReadyToArchive do: [ :t |
+		t archive
+	].
+	self inform: 'Archived. Press save to make archival permanent.' 
+]
+
+{ #category : #initialization }
 STAppMainFrame >> doLoad [
 	STData tasksLoad.
 	dualPresenter reLoad.
@@ -46,9 +54,15 @@ STAppMainFrame >> initializePresenters [
 			yourself);
 		addItem: (SpToolbarButtonPresenter new
 			label: 'Load';
-			icon: (self iconNamed: #smallOpen);
+			icon: (self iconNamed: #open);
 			help: 'Load';
 			action: [ self doLoad ];
+			yourself);		
+		addItem: (SpToolbarButtonPresenter new
+			label: 'Archive';
+			icon: (self iconNamed: #scriptManager);
+			help: 'Archive';
+			action: [ self doArchive ];			
 			yourself);
 		yourself.
 		

@@ -86,7 +86,7 @@ STData class >> tasks [
 
 	| col |
 	col := tasks ifNil: [ tasks := OrderedCollection new ].
-	^ tasks := col reject: [ :t | t isArchived ]
+	^ col reject: [ :t | t isArchived ]
 ]
 
 { #category : #accessing }
@@ -100,7 +100,7 @@ STData class >> tasksArchive [
 
 	| col |
 	col := tasks ifNil: [ tasks := OrderedCollection new ].
-	^ col detect: [ :t | t isArchived ] ifNone: [ OrderedCollection new ].
+	^ col select: [ :t | t isArchived ].
 ]
 
 { #category : #accessing }
@@ -137,7 +137,7 @@ STData class >> tasksSaveFile: aPathString [
 	"Saves the tasks collection to disk as STON"
 	| s |
 	s := aPathString asFileReference writeStream.
-	(STON writer on: s) nextPut: self tasks.
+	(STON writer on: s) nextPut: tasks. "Not self tasks, because archived tasks should be saved..."
 	s close.
 
 ]

@@ -42,7 +42,7 @@ STTask class >> withTitle: aString [
 STTask >> archive [
 	| newState |
 	
-	newState := (STTaskState named: #archived).		
+	newState := (STTaskState new id: #archived).		
 	self taskStateLog changeStateTo: newState.
 ]
 
