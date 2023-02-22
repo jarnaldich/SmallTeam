@@ -11,11 +11,16 @@ Class {
 STTaskFilterByStatePresenter >> buildTaskFilter: aSelection [ 
 	tasksFilter := (STTaskFilter withBlock: [ :t | 
 			t currentState 
-				ifNil: [ false ]
+				ifNil: [ aSelection selectedItems includes: '-' ]
 				ifNotNil: [ :s | aSelection selectedItems includes: s name ]]).
 ]
 
 { #category : #initialization }
 STTaskFilterByStatePresenter >> items [
-	^ STTaskState allNames.
+	|states|
+	states :=  STTaskState allNames asOrderedCollection.
+	states addFirst: '-'.
+	
+	^ states.
+
 ]

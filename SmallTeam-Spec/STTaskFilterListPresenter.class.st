@@ -25,7 +25,12 @@ STTaskFilterListPresenter >> initializePresenters [
 	listPresenter := self newList
 		items: self items;
 		beMultipleSelection.
-	listPresenter selectItems: listPresenter items.
+	self selectAll.
 	listPresenter whenSelectionChangedDo: [ :selection |
 		self buildTaskFilterAndCallBack: selection ]
+]
+
+{ #category : #initialization }
+STTaskFilterListPresenter >> selectAll [
+		listPresenter selectItems: listPresenter items.
 ]

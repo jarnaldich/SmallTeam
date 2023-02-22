@@ -11,11 +11,15 @@ Class {
 STTaskFilterByDeveloperPresenter >> buildTaskFilter: aSelection [ 
 	tasksFilter := (STTaskFilter withBlock: [ :t | 
 			t assignedTo 
-				ifNil: [ false ]
+				ifNil: [ aSelection selectedItems includes: '-' ]
 				ifNotNil: [ :d | aSelection selectedItems includes: d name ]]).
 ]
 
 { #category : #accessing }
 STTaskFilterByDeveloperPresenter >> items [
-	^ STData developers keys.
+	|developers|
+	developers :=  STData developers keys asOrderedCollection.
+	developers addFirst: '-'.
+	
+	^ developers.
 ]

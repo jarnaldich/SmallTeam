@@ -72,13 +72,12 @@ STData class >> projects: anObject [
 
 { #category : #accessing }
 STData class >> taskAdd: aTask [
-	self tasks addFirst: aTask.
+	tasks addFirst: aTask.
 ]
 
 { #category : #accessing }
 STData class >> taskRemove: aTask [
-	self tasks addFirst: aTask.
-	self tasks remove: aTask ifAbsent: [  ].
+	tasks remove: aTask ifAbsent: [  ].
 ]
 
 { #category : #accessing }

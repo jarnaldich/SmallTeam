@@ -42,3 +42,9 @@ STTaskFilterPanelPresenter >> initializePresenters [
 	
 	
 ]
+
+{ #category : #initialization }
+STTaskFilterPanelPresenter >> selectAll [
+	taskFilterByStatePresenter selectAll.
+	taskFilterByDeveloperPresenter selectAll.
+]

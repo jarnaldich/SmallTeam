@@ -139,7 +139,7 @@ STTask >> getUrl [
 
 { #category : #accessing }
 STTask >> isArchived [
-	^ self currentState ifNil: [ false ] ifNotNil: [ :s | s id = #archived].
+	^ self currentState ifNil: [ false ] ifNotNil: [ :s | s id = #archived ].
 ]
 
 { #category : #accessing }

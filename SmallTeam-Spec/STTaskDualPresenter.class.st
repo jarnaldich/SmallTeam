@@ -102,12 +102,17 @@ STTaskDualPresenter >> initializeWindow: aWindowPresenter [
 { #category : #initialization }
 STTaskDualPresenter >> newTask [
 	| t |
+	Transcript crShow: (STData tasks size).	
 	t := STTask new title: 'New Task'.
 	STData taskAdd: t.
+	Transcript crShow: (STData tasks size).
 	
 	taskListPresenter model: STData tasks.
 	taskListPresenter selectIndex: 1.
 	Transcript crShow: t title.
+	Transcript crShow: (STData tasks size).
+	
+	filterPanel selectAll.
 "
 	taskListPresenter announcingObject valueChanged.
 	taskListPresenter modelChanged.
