@@ -118,6 +118,6 @@ STTaskListPresenter >> updatePresenter [
 	"comment stating purpose of instance-side method"
 	"scope: class-variables  &  instance-variables"	
 	
-	tablePresenter items: self model.
+	tablePresenter items: self model filteredItems.
 
 ]

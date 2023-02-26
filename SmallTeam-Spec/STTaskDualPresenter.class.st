@@ -84,7 +84,7 @@ STTaskDualPresenter >> initializePresenters [
 	self initializeFilterPanel.
 	
 	selected := STData tasks at: 1.
-	taskListPresenter := self instantiate: STTaskListPresenter on: STData tasks.
+	taskListPresenter := self instantiate: STTaskListPresenter on: self taskAdapter.
 	taskListPresenter selectIndex: 1.
 	taskFormPresenter := self instantiate: STTaskFormPresenter on: selected.
 	
@@ -127,8 +127,8 @@ STTaskDualPresenter >> newTask [
 STTaskDualPresenter >> reLoad [
 	"Called when database is loaded from disk"	
 	| selected data |
-	data := self applyFilters.
-	taskListPresenter model: data.
+	taskListPresenter model: self taskAdapter.
+	data := self taskAdapter filteredItems.
 	
 	"XXX aqui si el resultat es buit caldria desactivar el formulari..."
 	data ifNotEmpty: [ 
@@ -157,6 +157,16 @@ STTaskDualPresenter >> removeSelectedTask [
 	taskFormPresenter model: (STData tasks at: 1).
 
 "	self updatePresenter."
+]
+
+{ #category : #initialization }
+STTaskDualPresenter >> taskAdapter [
+	"Initialize controls"	
+	^ STTableAdapter new
+	  		items: STData tasks;
+			filter: filterPanel tasksFilter.
+	
+	
 ]
 
 { #category : #initialization }
