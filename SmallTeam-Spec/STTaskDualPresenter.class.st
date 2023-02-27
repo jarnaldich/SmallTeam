@@ -102,25 +102,12 @@ STTaskDualPresenter >> initializeWindow: aWindowPresenter [
 { #category : #initialization }
 STTaskDualPresenter >> newTask [
 	| t |
-	Transcript crShow: (STData tasks size).	
 	t := STTask new title: 'New Task'.
 	STData taskAdd: t.
-	Transcript crShow: (STData tasks size).
-	
-	taskListPresenter model: STData tasks.
-	taskListPresenter selectIndex: 1.
-	Transcript crShow: t title.
-	Transcript crShow: (STData tasks size).
-	
-	filterPanel selectAll.
-"
-	taskListPresenter announcingObject valueChanged.
-	taskListPresenter modelChanged.
-"
-	
-	taskFormPresenter model: t.
-	
-"	taskFormPresenter modelChanged."
+
+	filterPanel selectAll.	
+	taskListPresenter model: self taskAdapter.
+	taskListPresenter selectItem: t.
 ]
 
 { #category : #initialization }
@@ -148,15 +135,13 @@ STTaskDualPresenter >> reLoad [
 STTaskDualPresenter >> removeSelectedTask [
 	| t  |
 	t := taskListPresenter selectedItem.
-	STData tasks remove: t.
+	STData taskRemove:  t.
 	
-	taskListPresenter model: STData tasks.
+	taskListPresenter model: self taskAdapter.
 "	taskListPresenter announcingObject valueChanged.
 	taskListPresenter modelChanged.
-"	taskListPresenter selectIndex: 1.
-	taskFormPresenter model: (STData tasks at: 1).
-
-"	self updatePresenter."
+"	taskListPresenter selectIndex: 1.	
+	self updatePresenter.
 ]
 
 { #category : #initialization }

@@ -145,7 +145,7 @@ STTask >> isArchived [
 { #category : #accessing }
 STTask >> priority [
 
-	^ priority ifNil: [ priority := 0 ]
+	^ priority ifNil: [ priority := 10 ]
 ]
 
 { #category : #accessing }

@@ -86,6 +86,11 @@ STTaskListPresenter >> selectIndex: anInteger [
 ]
 
 { #category : #initialization }
+STTaskListPresenter >> selectItem: aTask [
+	tablePresenter selectItem: aTask.
+]
+
+{ #category : #initialization }
 STTaskListPresenter >> selectedIndex [
 	^ tablePresenter selectedIndex
 ]
