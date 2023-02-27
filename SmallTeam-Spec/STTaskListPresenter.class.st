@@ -26,31 +26,31 @@ STTaskListPresenter >> initializePresenters [
 		addColumn: ((SpStringTableColumn 
 							title: 'Priority' 
 							evaluated: [:task | task priority printPaddedWith: Character space to: 2])
-							beSortable;
+"							beSortable; Sortable attribute does not play well with Add function. Presenter does not know the details from the underlying list. There is no way to get the sorted list. "
 							width: 40;
 							yourself);	
 		addColumn: ((SpStringTableColumn 
 							title: 'Who' 
 							evaluated: [:task | task assignedTo ifNil: ['-'] ifNotNil: [ :p | p name ] ])
-							beSortable;
+"							beSortable;"
 							width: 40;
 							yourself);
 		addColumn: ((SpStringTableColumn 
 							title: 'State' 
 							evaluated: [:task | task currentState ifNil: ['-'] ifNotNil: [ :p | p name ] ]) 	
-							beSortable;
+"							beSortable;"
 							width: 40;
 							yourself);
 		addColumn: ((SpStringTableColumn 
 							title: 'Type' 
 							evaluated: [:task | task type ifNil: ['-'] ifNotNil: [ :p | p name ] ]) 	
-							beSortable;
+"							beSortable;"
 							width: 50;
 							yourself);
 		addColumn: ((SpStringTableColumn 
 							title: 'Title' 
 							evaluated: [:task | task title])
-							beSortable);
+							yourself);
 					
 		contextMenu: self taskListContextMenu;
 		yourself.

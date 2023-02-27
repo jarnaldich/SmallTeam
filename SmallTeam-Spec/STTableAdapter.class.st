@@ -26,7 +26,8 @@ STTableAdapter >> filter: anObject [
 { #category : #accessing }
 STTableAdapter >> filteredItems [
 
-	^ self items select: self filter.
+	^ (self items select: self filter)
+			sorted: [ :a :b | a priority >= b priority ].
 ]
 
 { #category : #accessing }
