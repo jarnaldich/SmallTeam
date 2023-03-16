@@ -58,7 +58,7 @@ STData class >> projects [
 		projects := Dictionary  new.
 		#('orto'
 		  'distrib' 'minerva' 'fototeca' 'i+d' 
-		  'ct1mv3' 'rtt' 'sidl' 'serveis' 'gestio' 'newspace' 'cintoteca') do: [ :p |
+		  'ct1mv3' 'rtt' 'sidl' 'serveis' 'gestio' 'newspace' 'cintoteca' 'openicgc' 'bdps') do: [ :p |
 			projects at: p put: (STProject new name: p)
 		]
 	]
@@ -122,7 +122,7 @@ STData class >> tasksLoadFile: aPathString [
 
 { #category : #accessing }
 STData class >> tasksReadyToArchive [
-	^ self tasks select: [ :t | t currentState  id = #finished ]
+	^ self tasks select: [ :t | #( finished abandoned ) includes: (t currentState id) ]
 ]
 
 { #category : #accessing }

@@ -28,7 +28,7 @@ STTaskType class >> allNames [
 { #category : #'instance creation' }
 STTaskType class >> allSymbols [ 
 	"all symbolss"	
-	^ #(bug millora manteniment seguiment backlog dades peticio).
+	^ #(bug millora manteniment nou seguiment backlog dades peticio distrib).
 ]
 
 { #category : #'instance creation' }
@@ -50,6 +50,12 @@ STTaskType class >> dades [
 ]
 
 { #category : #'instance creation' }
+STTaskType class >> distrib [
+	"Create a #millora TaskType"
+	^ self new id: #distrib
+]
+
+{ #category : #'instance creation' }
 STTaskType class >> manteniment [
 	"Create a #manteniment TaskType. P.ex canvis que venen imposats per migracions postgres..."
 	^ self new id: #manteniment
@@ -65,6 +71,12 @@ STTaskType class >> millora [
 STTaskType class >> named: aSymbolOrString [
 	"Create Task in #working state"
 	^ self perform: (aSymbolOrString asString asLowercase asSymbol).
+]
+
+{ #category : #'instance creation' }
+STTaskType class >> nou [
+	"Create a #millora TaskType"
+	^ self new id: #nou
 ]
 
 { #category : #'instance creation' }
