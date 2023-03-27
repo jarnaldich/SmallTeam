@@ -17,7 +17,7 @@ Class {
 { #category : #accessing }
 STData class >> defaultRepo [ 
 	"Returns location of repo. Should be machine dendendent, configured or sth in the future..."
-	NetNameResolver localHostName = 'AGULLANA'
+	NetNameResolver localHostName = 'CASTELLFOLLIT'
 		ifTrue: [ ^ FileLocator C / 'Users' / 'j.arnaldich' / 'Dropbox' / 'Feina' / 'ICGC' / 'Tasques' ]
 		ifFalse: [ ^ FileLocator localDirectory  / 'iceberg' / 'jarnaldich' / 'SmallTeam' / 'data' ]
 	
