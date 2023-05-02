@@ -12,6 +12,16 @@ Class {
 	#category : #'SmallTeam-Model'
 }
 
+{ #category : #converting }
+STTaskStateTransition >> asDictionary [ 
+	^ { 
+		'reason' -> self reason .
+		'toState' -> self toState name .
+		'when' -> self when
+	}.
+	
+]
+
 { #category : #accessing }
 STTaskStateTransition >> reason [
 

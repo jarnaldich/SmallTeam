@@ -82,7 +82,6 @@ STData class >> taskRemove: aTask [
 
 { #category : #accessing }
 STData class >> tasks [
-
 	| col |
 	col := tasks ifNil: [ tasks := OrderedCollection new ].
 	^ col reject: [ :t | t isArchived ]
@@ -126,6 +125,22 @@ STData class >> tasksReadyToArchive [
 ]
 
 { #category : #accessing }
+STData class >> tasksSQLiteSave [
+	"Saves the tasks collection to disk as STON"
+	^ self tasksSQLiteSaveTo: (self defaultRepo / 'Tasks.sqlite' ) pathString .
+]
+
+{ #category : #accessing }
+STData class >> tasksSQLiteSaveTo: aFileName [
+	"Saves the SQLite file"
+	self withSQLiteFile: aFileName do: [ :db |
+		tasks do: [ :t | 
+			t saveToDb: db 
+		 ]
+	]
+]
+
+{ #category : #accessing }
 STData class >> tasksSave [
 	"Saves the tasks collection to disk as STON"
 	self tasksSaveFile: (self defaultRepo / 'Tasks.ston' ) pathString .
@@ -139,4 +154,14 @@ STData class >> tasksSaveFile: aPathString [
 	(STON writer on: s) nextPut: tasks. "Not self tasks, because archived tasks should be saved..."
 	s close.
 
+]
+
+{ #category : #accessing }
+STData class >> withSQLiteFile: aFileName do: aBlock [
+	"Do something with an open SQLite DB"
+	|con |
+	con := SQLite3Connection on: aFileName.
+	con open.
+	aBlock value: con.
+	con close.
 ]

@@ -47,6 +47,22 @@ STTask >> archive [
 ]
 
 { #category : #accessing }
+STTask >> asDictionary [
+	^ { 	
+		'assignedTo' -> (self assignedTo ifNotNil: [:d | d name]) .
+	'creationDate' -> (self creationDate) .
+	'title' -> (self title) . 
+	'description' -> (self description) .
+	'priority' -> (self priority) .
+	'refDoc' -> (self refDoc) .
+	'type' -> (self type name) . 
+	'project' -> (self project ifNotNil: [:p | p name] ) } asDictionary.
+	
+
+
+]
+
+{ #category : #accessing }
 STTask >> assignedTo [
 
 	^ assignedTo
@@ -179,9 +195,26 @@ STTask >> refDoc: anObject [
 ]
 
 { #category : #accessing }
+STTask >> saveToDb: aDb [
+	aDb execute: '
+		INSERT INTO tasks(
+			assigned_to, title, creation_date, 
+			description, ref_doc, priority,
+			type, project)
+		VALUES (
+			:assignedTo, :title, :creationDate,
+			:description, :refDoc, :priority,
+			:type, :project)
+		ON CONFLICT DO NOTHING
+	' with: self asDictionary .
+	self taskStateLog saveToDb: aDb.
+	
+]
+
+{ #category : #accessing }
 STTask >> taskStateLog [
 
-	^ taskStateLog ifNil: [ taskStateLog := STTaskStateLog new ]
+	^ taskStateLog ifNil: [ taskStateLog := STTaskStateLog new task: self ]
 ]
 
 { #category : #accessing }
