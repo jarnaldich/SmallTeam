@@ -30,6 +30,14 @@ Class {
 }
 
 { #category : #'instance creation' }
+STTask class >> neoJsonMapping: aMapper [
+	aMapper for: self do: [ :mapping |
+		mapping mapInstVars: #( title refDoc priority )
+	]
+		 
+]
+
+{ #category : #'instance creation' }
 STTask class >> withTitle: aString [
 	"initialize a task with a title"
 	^ self new 
