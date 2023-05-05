@@ -24,15 +24,51 @@ Class {
 		'refDoc',
 		'priority',
 		'type',
-		'project'
+		'project',
+		'id'
 	],
 	#category : #'SmallTeam-Model'
 }
 
 { #category : #'instance creation' }
 STTask class >> neoJsonMapping: aMapper [
+	aMapper for: DateAndTime customDo: [ :mapping |
+			mapping encoder: [ :dt | dt printString ]
+	].
+
+	aMapper for: STTaskState customDo: [ :mapping |
+			mapping encoder: [ :dt | dt name ]
+	].
+	aMapper for: STPerson customDo: [ :mapping |
+			mapping encoder: [ :dt | dt name ]
+	].
+
+	aMapper for: STProject customDo: [ :mapping |
+			mapping encoder: [ :dt | dt name ]
+	].
+
+	aMapper for: STTaskType customDo: [ :mapping |
+			mapping encoder: [ :dt | dt name ]
+	].
+
+	aMapper for: STTaskStateLog customDo: [ :mapping |
+			mapping encoder: [ :dt | dt transitions ]
+	].
+
+	aMapper for: STTaskStateTransition do: [ :mapping |
+			mapping mapInstVars: #( toState when )
+	].
+
 	aMapper for: self do: [ :mapping |
-		mapping mapInstVars: #( title refDoc priority )
+		mapping mapInstVars: #( 
+			id
+			title refDoc priority 
+			creationDate
+			assignedTo
+			project
+			type
+			taskStateLog
+		)
 	]
 		 
 ]
@@ -159,6 +195,18 @@ STTask >> getUrl [
 		ifTrue: [ ^ self refDoc  ].
 		
 	^ refDocOrEmpty.
+]
+
+{ #category : #accessing }
+STTask >> id [
+
+	^ id ifNil: [ id := nil ]
+]
+
+{ #category : #accessing }
+STTask >> id: anObject [
+
+	id := anObject
 ]
 
 { #category : #accessing }

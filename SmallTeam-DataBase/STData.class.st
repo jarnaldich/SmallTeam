@@ -157,6 +157,26 @@ STData class >> tasksSaveFile: aPathString [
 ]
 
 { #category : #accessing }
+STData class >> toJsonString [
+	| dict  projectsDict developersDict |
+	" This is just in case we wanted to treat projects, etc... as separate entities..."
+	" we can at the moment just suppose they are finit domains and wont change, so no need
+	to export them..."
+	projectsDict := self projects keys collectWithIndex: [ :x :i |
+		{ #id -> i . #name -> x } asDictionary 
+	].
+	developersDict := self developers keys collectWithIndex: [ :x :i |
+		{ #id -> i . #name -> x } asDictionary 
+	].
+	tasks doWithIndex:  [ :t :i | t id: i ].
+	dict := { 
+		#tasks -> tasks
+	} asDictionary.
+	
+	^ NeoJSONWriter toStringPretty: dict.
+]
+
+{ #category : #accessing }
 STData class >> withSQLiteFile: aFileName do: aBlock [
 	"Do something with an open SQLite DB"
 	|con |
